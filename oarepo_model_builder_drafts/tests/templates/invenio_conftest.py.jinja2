@@ -1,0 +1,15 @@
+import pytest
+
+
+@pytest.fixture()
+def headers():
+    """Default headers for making requests."""
+    return {
+        "content-type": "application/json",
+        "accept": "application/json",
+    }
+@pytest.fixture()
+def input_data(sample_metadata_list):
+    return sample_metadata_list[0]
+
+

@@ -1,0 +1,6 @@
+from invenio_drafts_resources.records.api import DraftRecordIdProviderV2
+from {{ current_model.drafts_parent_state_class|package_name }} import {{ current_model.drafts_parent_state_class|base_name }}
+
+class {{ current_model.record_class|base_name }}:
+    versions_model_cls = {{ current_model.drafts_parent_state_class|base_name }}
+    parent_record_cls = {{ current_model.drafts_parent_record_class|base_name }}

@@ -1,0 +1,11 @@
+from invenio_records.systemfields import ConstantField
+from {{ current_model.drafts_parent_record_metadata_class|package_name }} import {{ current_model.drafts_parent_record_metadata_class|base_name }}
+from {{ current_model.drafts_parent_record_parent_class|package_name }} import {{ current_model.drafts_parent_record_parent_class|base_name }}
+
+class {{ current_model.drafts_parent_record_class|base_name }}({{ current_model.drafts_parent_record_parent_class|base_name }}): #TODO create special name for these? assuming yes
+
+    model_cls = {{ current_model.drafts_parent_record_metadata_class|base_name }}
+
+    schema = ConstantField(
+        "$schema", "local://parent-v1.0.0.json"
+    )
