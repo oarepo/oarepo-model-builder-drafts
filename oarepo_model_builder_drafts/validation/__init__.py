@@ -8,6 +8,8 @@ class DraftAddonClasses(ma.Schema):
     drafts_parent_record_parent_class = fields.String(data_key="drafts-parent-record-parent-class", required=False)
     drafts_parent_record_metadata_class = fields.String(data_key="drafts-parent-record-metadata-class", required=False)
     drafts_parent_state_class = fields.String(data_key="drafts-parent-state-class", required=False)
+    drafts_parent_schema_name = fields.String(data_key="drafts-parent-schema-name", required=False)
+    drafts_parent_schema_file = fields.String(data_key="drafts-parent-schema-file", required=False)
 
 
 class DraftsModelSchema(ma.Schema):

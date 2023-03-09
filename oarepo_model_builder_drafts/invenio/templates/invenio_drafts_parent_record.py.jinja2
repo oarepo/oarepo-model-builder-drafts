@@ -7,5 +7,5 @@ class {{ current_model.drafts_parent_record_class|base_name }}({{ current_model.
     model_cls = {{ current_model.drafts_parent_record_metadata_class|base_name }}
 
     schema = ConstantField(
-        "$schema", "local://parent-v1.0.0.json"
+        "$schema", "{{ current_model.schema_server }}{{ current_model.drafts_parent_schema_name }}"
     )

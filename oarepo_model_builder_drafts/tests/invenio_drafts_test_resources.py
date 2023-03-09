@@ -6,7 +6,7 @@ from oarepo_model_builder.utils.hyphen_munch import HyphenMunch
 class InvenioDraftsTestResourcesBuilder(InvenioBaseClassPythonBuilder):
     TYPE = "invenio_drafts_test_resources"
     template = "drafts-test-resources"
-    MODULE = "tests.drafts.test_resources"
+    MODULE = "tests.test_resources"
 
     def finish(self, **extra_kwargs):
         module = self.MODULE

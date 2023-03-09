@@ -13,3 +13,13 @@ model:
   schema-server: 'local://'
   use:
   - invenio
+#files:
+#  use:
+#  - invenio_files
+#  properties:
+#    metadata:
+#      properties:
+#        title:
+#          type: fulltext
+#  package: thesis
+#  schema-server: 'local://'

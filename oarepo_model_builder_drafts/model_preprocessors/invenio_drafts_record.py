@@ -5,7 +5,7 @@ class InvenioDraftsRecordModelPreprocessor(ModelPreprocessor):
 
     def transform(self, schema, settings):
         model = schema.current_model
-
+        model.setdefault("plugins", {"builder": {"disable": ["invenio_tests_resource", "invenio_tests_service"]}})
         model.setdefault("drafts-parent-record-parent-class",
                          "invenio_drafts_resources.records.api.ParentRecord")
         model.setdefault("record-resource-parent-class", "invenio_drafts_resources.resources.RecordResource")
