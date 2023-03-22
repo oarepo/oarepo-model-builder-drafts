@@ -3,8 +3,6 @@ set -e
 
 MODEL="thesis"
 VENV=".model_venv"
-export OPENSEARCH_PORT=9400
-#cd $(dirname $0)/..
 if test -d ./tests/$MODEL; then
 	rm -rf ./tests/$MODEL
 fi
