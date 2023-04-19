@@ -13,3 +13,4 @@ class InvenioDraftsRecordModelPreprocessor(ModelPreprocessor):
         model.setdefault("record-service-parent-class", "invenio_drafts_resources.services.RecordService")
         model.setdefault("record-service-config-parent-class", "invenio_drafts_resources.services.RecordServiceConfig")
         model.setdefault("record-parent-class", "invenio_drafts_resources.records.api.Record")
+        model.setdefault("record-metadata-parent-class", "invenio_records.models.RecordMetadataBase")
