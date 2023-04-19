@@ -26,3 +26,4 @@ class InvenioDraftsCommonModelPreprocessor(ModelPreprocessor):
         model.setdefault("drafts-parent-schema-file", lazy_object_proxy.Proxy(lambda: os.path.join(
                 model.package_path, "records", "jsonschemas", model.drafts_parent_schema_name
             )))
+        model.setdefault("record-pid-provider-parent-class", "invenio_drafts_resources.records.api.DraftRecordIdProviderV2")

@@ -1,3 +1,5 @@
+from invenio_drafts_resources.records import ParentRecordStateMixin
+
 class {{ current_model.drafts_parent_state_class|base_name }}(db.Model, ParentRecordStateMixin):
 
     __parent_record_model__ = {{ current_model.drafts_parent_record_metadata_class|base_name }}

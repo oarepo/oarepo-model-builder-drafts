@@ -1,5 +1,7 @@
-from invenio_drafts_resources.records import ParentRecordStateMixin
+from invenio_db import db
+from {{ current_model.record_metadata_parent_class|package_name }} import {{ current_model.record_metadata_parent_class|base_name }}
 
-class {{ current_model.drafts_parent_record_metadata_class|base_name }}(db.Model, RecordMetadataBase):
+
+class {{ current_model.drafts_parent_record_metadata_class|base_name }}(db.Model, {{ current_model.record_metadata_parent_class|base_name }}):
 
     __tablename__ = "{{ current_model.record_prefix_snake }}_parent_metadata"

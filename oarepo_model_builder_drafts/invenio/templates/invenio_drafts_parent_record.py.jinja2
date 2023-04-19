@@ -1,4 +1,5 @@
 from invenio_records.systemfields import ConstantField
+from invenio_drafts_resources.records import ParentRecordStateMixin
 from {{ current_model.drafts_parent_record_metadata_class|package_name }} import {{ current_model.drafts_parent_record_metadata_class|base_name }}
 from {{ current_model.drafts_parent_record_parent_class|package_name }} import {{ current_model.drafts_parent_record_parent_class|base_name }}
 
