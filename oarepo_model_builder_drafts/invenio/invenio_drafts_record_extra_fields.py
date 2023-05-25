@@ -3,5 +3,5 @@ from oarepo_model_builder.invenio.invenio_base import InvenioBaseClassPythonBuil
 
 class InvenioDraftsRecordExtraFieldsBuilder(InvenioBaseClassPythonBuilder):
     TYPE = "invenio_drafts_record_extra_fields"
-    class_config = "record-class"
+    section = "record"
     template = "drafts-record-extra-fields"

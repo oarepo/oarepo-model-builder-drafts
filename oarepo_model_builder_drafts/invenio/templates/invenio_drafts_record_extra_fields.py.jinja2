@@ -1,5 +1,5 @@
-from {{ current_model.drafts_parent_state_class|package_name }} import {{ current_model.drafts_parent_state_class|base_name }}
+{{ vars.draft_parent_record_state|generate_import }}
 
-class {{ current_model.record_class|base_name }}:
-    versions_model_cls = {{ current_model.drafts_parent_state_class|base_name }}
-    parent_record_cls = {{ current_model.drafts_parent_record_class|base_name }}
+class {{ vars.record|class_header }}:
+    versions_model_cls = {{ vars.draft_parent_record_state.class|base_name }}
+    parent_record_cls = {{ vars.draft_parent_record.class|base_name }}

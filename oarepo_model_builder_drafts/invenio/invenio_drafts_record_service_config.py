@@ -3,6 +3,6 @@ from oarepo_model_builder.invenio.invenio_base import InvenioBaseClassPythonBuil
 
 class InvenioDraftsRecordServiceConfigBuilder(InvenioBaseClassPythonBuilder):
     TYPE = "invenio_drafts_record_service_config"
-    class_config = "record-service-config-class"
+    section = "record-service-config"
     template = "drafts-record-service-config"
 
