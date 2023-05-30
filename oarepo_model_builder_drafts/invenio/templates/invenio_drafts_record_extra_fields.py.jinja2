@@ -1,5 +1,5 @@
 {{ vars.draft_parent_record_state|generate_import }}
 
-class {{ vars.record|class_header }}:
+class {{ record|class_header }}:
     versions_model_cls = {{ vars.draft_parent_record_state.class|base_name }}
     parent_record_cls = {{ vars.draft_parent_record.class|base_name }}

@@ -1,7 +1,5 @@
-import os
-
 import lazy_object_proxy
-from oarepo_model_builder.datatypes import DataTypeComponent, ModelDataType, DataType
+from oarepo_model_builder.datatypes import DataTypeComponent, ModelDataType, DataType, Section
 from oarepo_model_builder.datatypes.components import (
     DefaultsModelComponent,
     RecordMetadataModelComponent,
@@ -11,7 +9,7 @@ from oarepo_model_builder.datatypes.components.model.utils import (
     append_array,
     prepend_array, set_default,
 )
-
+"""
 
 class DraftComponent(DataTypeComponent):
     eligible_datatypes = [ModelDataType]
@@ -22,6 +20,11 @@ class DraftComponent(DataTypeComponent):
     #         - recursive definitions maybe not possible
     #
     affects = [DefaultsModelComponent]
+
+    def process_record_metadata(self, datatype: DataType, section: Section):
+        section.config["table"] += "_drafts"
+        record_metadata.setdefault("table",
+                        f"{parent_record_datatype.definition['record-metadata']['table']}_drafts")
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
         if context["profile"] != "drafts":
@@ -38,8 +41,9 @@ class DraftComponent(DataTypeComponent):
 
 
         record_metadata = set_default(datatype, "record-metadata", {})
-        record_metadata.setdefault("table",
-                        f"{parent_record_datatype.definition['record-metadata']['table']}_drafts")
+
+
+
 
         record_mappings = set_default(datatype, "record-mappings", {})
         record_mappings.setdefault("short-index-name", lazy_object_proxy.Proxy
@@ -47,5 +51,6 @@ class DraftComponent(DataTypeComponent):
             f"{datatype.definition['module']['prefix-snake']}-draft-{datatype.definition['json-schema-settings']['version']}"
             )
         )
+"""
 
 

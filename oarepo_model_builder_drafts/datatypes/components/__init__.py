@@ -1,5 +1,13 @@
-from .draft import DraftComponent
 from .draft_parent import DraftParentComponent
-from .invenio_drafts_bases import InvenioDraftsBasesComponent
+from .drafts_bases import InvenioDraftsBasesComponent
+from .drafts_model import DraftRecordModelComponent, DraftRecordMetadataModelComponent, DraftPIDModelComponent, \
+    DraftMappingModelComponent
 
-draft_components = [DraftComponent, DraftParentComponent, InvenioDraftsBasesComponent]
+DRAFT_COMPONENTS = [
+    DraftParentComponent,
+    InvenioDraftsBasesComponent,
+    DraftRecordModelComponent,
+    DraftRecordMetadataModelComponent,
+    DraftPIDModelComponent,
+    DraftMappingModelComponent,
+]

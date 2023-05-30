@@ -1,4 +1,5 @@
-{{ parent_record.record.class|generate_import }}
+{{ vars.record.class|generate_import }}
+{{ vars.resource_config.class|generate_import }}
 
 def _assert_single_item_response(response):
     """Assert the fields present on a single item response."""
@@ -119,7 +120,7 @@ def test_publish_draft(client, input_data, search_clear):
 def test_search_versions(client, input_data, search_clear):
     """Test search for versions."""
     recid = _create_and_publish(client, input_data)
-    {{ parent_record.record.class|base_name }}.index.refresh()
+    {{ vars.record.class|base_name }}.index.refresh()
 
     # Check draft does not exists anymore
     res = client.get(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/versions")

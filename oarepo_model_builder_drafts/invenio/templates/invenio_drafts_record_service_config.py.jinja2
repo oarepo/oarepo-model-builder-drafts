@@ -1,9 +1,10 @@
 from invenio_drafts_resources.services.records.config import is_draft, is_record
 from invenio_records_resources.services import ConditionalLink
-from {{ current_model.record_class|package_name }} import {{ current_model.record_class|base_name }}
+{{ vars.record.class|generate_import }}
+{{ vars.draft_record.class|generate_import }}
 
-class {{ current_model.record_service_config_class|base_name }}:
-    draft_cls = {{ current_model.record_class|base_name }}
+class {{ vars.service_config|class_header }}:
+    draft_cls = {{ vars.draft_record.class|base_name }}
 
     @property
     def links_item(self):

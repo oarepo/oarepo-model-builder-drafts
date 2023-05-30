@@ -7,9 +7,5 @@ class InvenioDraftsTestResourcesBuilder(InvenioBaseClassPythonBuilder):
     template = "drafts-test-resources"
     MODULE = "tests.test_resources"
 
-    def finish(self, **extra_kwargs):
-        super().finish(
-            parent_record=self.current_model.parent_record.definition, **extra_kwargs
-        )
     def _get_output_module(self):
         return f'{self.current_model.definition["tests"]["module"]}.test_resource'
