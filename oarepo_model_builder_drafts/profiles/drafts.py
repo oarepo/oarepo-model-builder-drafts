@@ -4,10 +4,11 @@ from typing import Union, List
 from oarepo_model_builder.builder import ModelBuilder
 from oarepo_model_builder.profiles.record import RecordProfile
 from oarepo_model_builder.schema import ModelSchema
-from oarepo_model_builder.utils.dict import dict_get
+from oarepo_model_builder.utils.dict import dict_get, dict_setdefault
+
 
 class DraftsProfile(RecordProfile):
-    default_model_path = ["record", "drafts"]
+    default_model_path = ["record", "draft"]
 
     def build(
         self,
@@ -19,7 +20,7 @@ class DraftsProfile(RecordProfile):
         **kwargs,
     ):
         parent_record = model.get_schema_section("record", model_path[:-1])
-
+        dict_setdefault(model.schema, model_path, default={})
         draft_profile = dict_get(model.schema, model_path)
         draft_profile["type"] = "draft_record"
 

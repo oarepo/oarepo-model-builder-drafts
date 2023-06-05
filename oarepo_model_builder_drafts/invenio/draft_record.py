@@ -5,7 +5,8 @@ class InvenioDraftRecordBuilder(InvenioRecordBuilder):
     TYPE = "draft"
     section = "draft-record"
     template = "record"
-    record_section = "section_draft_record"
-    record_metadata_section = "section_draft_record_metadata"
-    pid_section = "section_draft_pid"
-    mapping_section = "section_draft_mapping_settings"
+    section_remap = {"record": "section_draft_record",
+                     "record_metadata": "section_draft_record_metadata",
+                     "pid": "section_draft_pid",
+                     "mapping_settings": "section_draft_mapping_settings",
+                     }

@@ -5,24 +5,3 @@ from invenio_records_resources.services import ConditionalLink
 
 class {{ vars.service_config|class_header }}:
     draft_cls = {{ vars.draft_record.class|base_name }}
-
-    @property
-    def links_item(self):
-        return {
-            "self": ConditionalLink(
-                cond=is_record,
-                if_=RecordLink("{+api}{self.url_prefix}{id}"),
-                else_=RecordLink("{+api}{self.url_prefix}{id}/draft"),
-            ),
-            "self_html": ConditionalLink(
-                cond=is_record,
-                if_=RecordLink("{+ui}{self.url_prefix}{id}"),
-                else_=RecordLink("{+ui}{self.url_prefix}{id}/draft"),
-            ),
-            "latest": RecordLink("{+api}{self.url_prefix}{id}/versions/latest"),
-            "latest_html": RecordLink("{+ui}{self.url_prefix}{id}/latest"),
-            "draft": RecordLink("{+api}{self.url_prefix}{id}/draft", when=is_record),
-            "record": RecordLink("{+api}{self.url_prefix}{id}", when=is_draft),
-            "publish": RecordLink("{+api}{self.url_prefix}{id}/draft/actions/publish", when=is_draft),
-            "versions": RecordLink("{+api}{self.url_prefix}{id}/versions"),
-        }

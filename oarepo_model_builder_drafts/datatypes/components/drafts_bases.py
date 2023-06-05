@@ -41,8 +41,10 @@ class InvenioDraftsBasesComponent(DataTypeComponent):
     """
     def process_links(self, datatype, section: Section, **kwargs):
         # add files link item
-        section.config.pop("links_search")
-        section.config.pop("links_item")
+        if "links_search" in section.config:
+            section.config.pop("links_search")
+        if "links_item" in section.config:
+            section.config.pop("links_item")
         # remove normal links and add
         # TODO links don't support keywords?
         section.config["links_item"] = [

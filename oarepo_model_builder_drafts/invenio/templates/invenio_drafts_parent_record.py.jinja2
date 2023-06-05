@@ -1,3 +1,4 @@
+{% if not vars.draft_parent_record.skip %}
 from invenio_records.systemfields import ConstantField
 {{ vars.draft_parent_record.imports|generate_import }}
 {{ vars.draft_parent_record_metadata.class|generate_import }}
@@ -9,3 +10,4 @@ class {{ vars.draft_parent_record|class_header }}: #TODO create special name for
     schema = ConstantField(
         "$schema", "{{ settings.schema_server }}{{ vars.draft_parent_record_schema.name }}"
     )
+{% endif %}

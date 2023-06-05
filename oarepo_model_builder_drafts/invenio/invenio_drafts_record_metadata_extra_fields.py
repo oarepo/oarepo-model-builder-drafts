@@ -1,6 +1,6 @@
 from oarepo_model_builder.invenio.invenio_base import InvenioBaseClassPythonBuilder
 
-
+# todo to skipovani nefunguje kdyz se skipuji vsechny pridany hodnoty
 class InvenioDraftsRecordMetadataExtraFieldsBuilder(InvenioBaseClassPythonBuilder):
     TYPE = "invenio_drafts_record_metadata_extra_fields"
     section = "record-metadata"

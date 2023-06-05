@@ -57,7 +57,7 @@ class DraftParentRecordStateSchema(ma.Schema):
         metadata={"doc": "Module where the facets will be placed"}
     )
     generate = ma.fields.Boolean()
-
+    skip = ma.fields.Boolean()
 
 
 class DraftParentRecordMetadataSchema:
@@ -83,6 +83,7 @@ class DraftParentRecordMetadataSchema:
         metadata={"doc": "Module where the facets will be placed"}
     )
     generate = ma.fields.Boolean()
+    skip = ma.fields.Boolean()
 
 
 
@@ -93,6 +94,7 @@ class DraftParentRecordJsonSchema:
         data_key="file", attribute="file", metadata={"doc": "Path to schema file"}
     )
     generate = ma.fields.Boolean()
+    skip = ma.fields.Boolean()
 class DraftParentComponent(DataTypeComponent):
     eligible_datatypes = [ModelDataType]
     depends_on = [RecordModelComponent, RecordMetadataModelComponent]
