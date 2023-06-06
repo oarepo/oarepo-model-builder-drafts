@@ -10,9 +10,8 @@ from oarepo_model_builder.validation.utils import ImportSchema
 from oarepo_model_builder_drafts.datatypes import DraftDataType
 
 
-class DraftRecordMetadataModelComponent(RecordMetadataModelComponent):
+class DraftRecordMetadataModelComponent(DataTypeComponent):
     eligible_datatypes = [DraftDataType]
-    dependency_remap = RecordMetadataModelComponent
 
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
@@ -31,5 +30,3 @@ class DraftRecordMetadataModelComponent(RecordMetadataModelComponent):
             ],
         )
         draft_metadata.setdefault("table", f"{context['parent_record'].definition['record-metadata']['table']}_draft")
-
-        super().before_model_prepare(datatype, context=context, **kwargs)
