@@ -134,7 +134,7 @@ class DraftParentComponent(DataTypeComponent):
         )
 
         draft_parent_record = set_default(datatype, "draft-parent-record", {})
-        draft_parent_record.setdefault("class", f"{record_module}.{record_prefix}ParentRecord")
+        draft_parent_record.setdefault("class", f"{record_module}.DraftParentRecord")
         draft_parent_record.setdefault("base-classes", ["ParentRecord"])
         draft_parent_record.setdefault(
             "imports", [{"import": "invenio_drafts_resources.records.api.ParentRecord"}]
@@ -144,7 +144,7 @@ class DraftParentComponent(DataTypeComponent):
 
 
         draft_parent_record_state = set_default(datatype, "draft-parent-record-state", {})
-        draft_parent_record_state.setdefault("class", f"{metadata_module}.ParentState")
+        draft_parent_record_state.setdefault("class", f"{metadata_module}.DraftParentState")
         draft_parent_record_state.setdefault("base-classes", ["db.Model", "ParentRecordStateMixin"])
         draft_parent_record_state.setdefault(
             "imports",
@@ -157,7 +157,7 @@ class DraftParentComponent(DataTypeComponent):
         draft_parent_record_state.setdefault("generate", True)
 
         draft_parent_record_metadata = set_default(datatype, "draft-parent-record-metadata", {})
-        draft_parent_record_metadata.setdefault("class", f"{metadata_module}.{record_prefix}ParentMetadata")
+        draft_parent_record_metadata.setdefault("class", f"{metadata_module}.DraftParentMetadata")
         draft_parent_record_metadata.setdefault("base-classes", ["db.Model", "RecordMetadataBase"])
         draft_parent_record_metadata.setdefault(
             "imports",

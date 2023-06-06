@@ -7,7 +7,7 @@ from oarepo_model_builder.schema import ModelSchema
 from oarepo_model_builder.utils.dict import dict_get, dict_setdefault
 
 
-class DraftsProfile(RecordProfile):
+class DraftProfile(RecordProfile):
     default_model_path = ["record", "draft"]
 
     def build(
@@ -33,7 +33,7 @@ class DraftsProfile(RecordProfile):
             output_directory=output_directory,
             builder=builder,
             context={
-                "profile": "drafts",
+                "profile": "draft",
                 "profile_module": "records",
                 "parent_record": parent_record,
             },

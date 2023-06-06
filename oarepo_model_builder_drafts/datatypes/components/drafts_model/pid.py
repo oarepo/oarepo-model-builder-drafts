@@ -12,10 +12,13 @@ from oarepo_model_builder_drafts.datatypes import DraftDataType
 
 class DraftPIDModelComponent(PIDModelComponent):
     eligible_datatypes = [DraftDataType]
+    dependency_remap = PIDModelComponent
 
 
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
+        parent = context["parent_record"]
         pid = set_default(datatype, "pid", {})
+        pid.setdefault("provider-class", parent.definition["pid"]["provider-class"],)
         pid.setdefault("field-args", ["create=True", "delete=False"])
         super().before_model_prepare(datatype, context=context, **kwargs)

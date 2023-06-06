@@ -1,3 +1,3 @@
 from .draft import DraftDataType
 
-draft_datatypes = [DraftDataType]
+DRAFT_DATATYPES = [DraftDataType]

@@ -91,6 +91,11 @@ class InvenioDraftsBasesComponent(DataTypeComponent):
         ]
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
+        if context["profile"] == "draft":
+            parent_record_datatype: DataType = context["parent_record"]
+            datatype.parent_record = parent_record_datatype
+
+
         pid = set_default(datatype, "pid", {})
         pid.setdefault("provider-base-classes", ["DraftRecordIdProviderV2"])
         pid.setdefault(

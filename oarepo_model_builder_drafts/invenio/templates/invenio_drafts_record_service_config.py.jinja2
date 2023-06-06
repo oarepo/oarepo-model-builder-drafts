@@ -1,7 +1,6 @@
 from invenio_drafts_resources.services.records.config import is_draft, is_record
 from invenio_records_resources.services import ConditionalLink
 {{ vars.record.class|generate_import }}
-{{ vars.draft_record.class|generate_import }}
 
-class {{ vars.service_config|class_header }}:
-    draft_cls = {{ vars.draft_record.class|base_name }}
+class {{ parent_record.service_config|class_header }}:
+    draft_cls = {{ vars.record.class|base_name }}
