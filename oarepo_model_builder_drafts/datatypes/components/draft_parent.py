@@ -56,6 +56,7 @@ class DraftParentRecordStateSchema(ma.Schema):
     module = ma.fields.String(
         metadata={"doc": "Module where the facets will be placed"}
     )
+    table = ma.fields.String()
     generate = ma.fields.Boolean()
     skip = ma.fields.Boolean()
 
@@ -144,7 +145,7 @@ class DraftParentComponent(DataTypeComponent):
 
 
         draft_parent_record_state = set_default(datatype, "draft-parent-record-state", {})
-        draft_parent_record_state.setdefault("class", f"{metadata_module}.DraftParentState")
+        draft_parent_record_state.setdefault("class", f"{metadata_module}.ParentState")
         draft_parent_record_state.setdefault("base-classes", ["db.Model", "ParentRecordStateMixin"])
         draft_parent_record_state.setdefault(
             "imports",
@@ -155,6 +156,7 @@ class DraftParentComponent(DataTypeComponent):
         )
         draft_parent_record_state.setdefault("module", metadata_module)
         draft_parent_record_state.setdefault("generate", True)
+        draft_parent_record_state.setdefault("table", "parent_state_metadata")
 
         draft_parent_record_metadata = set_default(datatype, "draft-parent-record-metadata", {})
         draft_parent_record_metadata.setdefault("class", f"{metadata_module}.DraftParentMetadata")

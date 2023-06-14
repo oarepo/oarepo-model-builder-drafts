@@ -10,8 +10,9 @@ from oarepo_model_builder.validation.utils import ImportSchema
 from oarepo_model_builder_drafts.datatypes import DraftDataType
 
 
-class DraftRecordMetadataModelComponent(DataTypeComponent):
+class DraftRecordMetadataModelComponent(RecordMetadataModelComponent):
     eligible_datatypes = [DraftDataType]
+    dependency_remap = RecordMetadataModelComponent
 
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
@@ -29,4 +30,5 @@ class DraftRecordMetadataModelComponent(DataTypeComponent):
                 {"import": "invenio_drafts_resources.records.ParentRecordMixin"},
             ],
         )
-        draft_metadata.setdefault("table", f"{context['parent_record'].definition['record-metadata']['table']}_draft")
+        draft_metadata.setdefault("use-versioning", False)
+        super().before_model_prepare(datatype, context=context, **kwargs)

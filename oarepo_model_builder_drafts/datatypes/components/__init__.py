@@ -1,17 +1,17 @@
-#from .draft_parent import DraftParentComponent
-#from .drafts_bases import InvenioDraftsBasesComponent
 from .draft_parent import DraftParentComponent
-from .drafts_bases import InvenioDraftsBasesComponent
-from .drafts_model import DraftDefaultsModelComponent, DraftMappingModelComponent, DraftRecordModelComponent, \
+from .draft import DraftComponent, DraftMetadataComponent
+from .draft_model import DraftDefaultsModelComponent, DraftRecordModelComponent, \
     DraftRecordMetadataModelComponent, DraftPIDModelComponent, DraftJSONSchemaModelComponent
+from .draft_tests import DraftModelTestComponent
 
 DRAFT_COMPONENTS = [
     DraftParentComponent,
-    InvenioDraftsBasesComponent,
+    DraftComponent,
+    DraftMetadataComponent,
     DraftRecordModelComponent,
     DraftRecordMetadataModelComponent,
     DraftPIDModelComponent,
-    DraftMappingModelComponent,
     DraftDefaultsModelComponent,
     DraftJSONSchemaModelComponent,
+    DraftModelTestComponent,
 ]

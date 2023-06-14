@@ -25,5 +25,4 @@ class DraftDefaultsModelComponent(DefaultsModelComponent):
         )
 
         super().before_model_prepare(datatype, context=context, **kwargs)
-        print()
 
