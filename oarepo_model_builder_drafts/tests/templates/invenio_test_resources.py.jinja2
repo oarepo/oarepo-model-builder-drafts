@@ -1,3 +1,4 @@
+import copy
 {{ vars.record.class|generate_import }}
 {{ vars.resource_config.class|generate_import }}
 
@@ -73,14 +74,15 @@ def test_create_publish_new_revision(client, input_data, search_clear, sample_me
 
     # Create new draft of said record
 
-    edited_input_data = sample_metadata_list[1]
+    edited_input_data = copy.deepcopy(input_data)
+    edited_input_data["metadata"] = sample_metadata_list[1]["metadata"]
     edited_metadata = edited_input_data["metadata"]
     orig_metadata = input_data["metadata"]
 
     response = client.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft")
 
     assert response.status_code == 201
-    assert response.json["revision_id"] == 5
+    assert response.json["revision_id"] == {{ test_constants.revision_id2 }}
     _assert_single_item_response(response)
 
     # Update that new draft
@@ -102,7 +104,7 @@ def test_create_publish_new_revision(client, input_data, search_clear, sample_me
     _assert_single_item_response(response)
 
     assert response.json["id"] == recid
-    assert response.json["revision_id"] == 2
+    assert response.json["revision_id"] == {{ test_constants.revision_id1 }}
     assert response.json["metadata"] == edited_metadata
 
     # Check it was actually edited
@@ -122,13 +124,13 @@ def test_mutiple_edit(client, input_data, search_clear):
     response = client.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft")
 
     assert response.status_code == 201
-    assert response.json["revision_id"] == 5
+    assert response.json["revision_id"] == {{ test_constants.revision_id2 }}
 
     # Request a second edit. Get the same draft (revision_id)
     response = client.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft")
 
     assert response.status_code == 201
-    assert response.json["revision_id"] == 5
+    assert response.json["revision_id"] == {{ test_constants.revision_id2 }}
 
     # Publish it to check the increment in version_id
     response = client.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft/actions/publish")
@@ -139,7 +141,7 @@ def test_mutiple_edit(client, input_data, search_clear):
     response = client.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft")
 
     assert response.status_code == 201
-    assert response.json["revision_id"] == 8
+    assert response.json["revision_id"] == {{ test_constants.revision_id3 }}
 
 
 def test_redirect_to_latest_version(client, input_data):

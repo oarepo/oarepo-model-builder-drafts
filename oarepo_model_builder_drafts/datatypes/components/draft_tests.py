@@ -19,4 +19,12 @@ class DraftModelTestComponent(DataTypeComponent):
             "delete_url": "/draft",
             "deleted_http_code": 404,
             "skip_search_test": True,
+            "service_read_method": "read_draft",
+            "service_create_method": "create",
+            "service_delete_method": "delete_draft",
+            "service_update_method": "update_draft",
+            "deleted_record_pid_error": "PIDDoesNotExistError",
+            "revision_id1": 2,
+            "revision_id2": 5,
+            "revision_id3": 8,
         }
