@@ -10,21 +10,6 @@ from oarepo_model_builder.utils.dict import dict_get, dict_setdefault
 class DraftProfile(RecordProfile):
     default_model_path = ["record", "draft"]
 
-    def get_profile_settings(self, model, model_path):
-        parent_record = model.get_schema_section("record", model_path[:-1])
-        dict_setdefault(model.schema, model_path, default={})
-        draft_profile = dict_get(model.schema, model_path)
-        draft_profile["type"] = "draft_record"
-
-        context = {
-            "profile": "draft",
-            "profile_module": "records",
-            "parent_record": parent_record,
-        }
-
-        return draft_profile, context
-
-
     def build(
         self,
         model: ModelSchema,

@@ -1,7 +1,7 @@
 from .draft_parent import DraftParentComponent
 from .draft import DraftComponent, DraftMetadataComponent
 from .draft_model import DraftDefaultsModelComponent, DraftRecordModelComponent, \
-    DraftRecordMetadataModelComponent, DraftPIDModelComponent, DraftJSONSchemaModelComponent
+    DraftRecordMetadataModelComponent, DraftPIDModelComponent, DraftJSONSchemaModelComponent, DraftMappingModelComponent
 from .draft_tests import DraftModelTestComponent
 
 DRAFT_COMPONENTS = [
@@ -14,4 +14,5 @@ DRAFT_COMPONENTS = [
     DraftDefaultsModelComponent,
     DraftJSONSchemaModelComponent,
     DraftModelTestComponent,
+    DraftMappingModelComponent,
 ]

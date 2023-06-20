@@ -44,7 +44,7 @@ class DraftComponent(DataTypeComponent):
                     link_class="ConditionalLink",
                     link_args=['cond=is_record',
                                'if_=RecordLink("{+ui}{self.url_prefix}{id}")',
-                               'else_=RecordLink("{+ui}/uploads/{id}")',], #todo this is prob not correct??, are the links in general correct?? like, url prefix contains pid value which is {id}?
+                               'else_=RecordLink("{+ui}/uploads/{id}")',],
                     imports=[Import("invenio_records_resources.services.ConditionalLink"),
                              Import("invenio_records_resources.services.RecordLink"),
                              Import("invenio_drafts_resources.services.records.config.is_record"),],
@@ -91,10 +91,13 @@ class DraftComponent(DataTypeComponent):
     def before_model_prepare(self, datatype, *, context, **kwargs):
         self.is_draft_profile = context["profile"] == "draft"
         self.is_record_profile = context["profile"] == "record"
-        if self.is_draft_profile:
-            #todo ask if is it ok to use definition on this level
+        if self.is_draft_profile: #todo - move these to draft model and just leave this for the record profile changes
             parent_record_datatype: DataType = context["parent_record"]
             datatype.parent_record = parent_record_datatype
+
+            properties = set_default(datatype, "properties", {})
+            for property_key, property_value in parent_record_datatype.definition["properties"].items(): #this should
+                properties.setdefault(property_key, property_value)
 
             record_service = set_default(datatype, "service", {})
             record_resource = set_default(datatype, "resource", {})
