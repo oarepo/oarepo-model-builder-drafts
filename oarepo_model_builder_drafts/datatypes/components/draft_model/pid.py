@@ -1,24 +1,39 @@
-import re
-
-import marshmallow as ma
-
-from oarepo_model_builder.datatypes import DataTypeComponent, ModelDataType
+from oarepo_model_builder.datatypes import ModelDataType
 from oarepo_model_builder.datatypes.components import PIDModelComponent
-from oarepo_model_builder.datatypes.components.model.pid import PIDSchema
 from oarepo_model_builder.datatypes.components.model.utils import set_default
-from oarepo_model_builder.utils.python_name import parent_module
-from oarepo_model_builder_drafts.datatypes import DraftDataType
 
 
 class DraftPIDModelComponent(PIDModelComponent):
-    eligible_datatypes = [DraftDataType]
+    eligible_datatypes = [ModelDataType]
     dependency_remap = PIDModelComponent
 
-
-
     def before_model_prepare(self, datatype, *, context, **kwargs):
-        parent = context["parent_record"]
+        if context["profile"] not in {"record", "draft"}:
+            return
+
         pid = set_default(datatype, "pid", {})
-        pid.setdefault("provider-class", parent.definition["pid"]["provider-class"],)
-        pid.setdefault("field-args", ["create=True", "delete=False"])
+        pid.setdefault("provider-base-classes", ["DraftRecordIdProviderV2"])
+        pid.setdefault(
+            "imports",
+            [
+                {
+                    "import": "invenio_records_resources.records.systemfields.pid.PIDField"
+                },
+                {
+                    "import": "invenio_records_resources.records.systemfields.pid.PIDFieldContext"
+                },
+                {
+                    "import": "invenio_drafts_resources.records.api.DraftRecordIdProviderV2"
+                },
+            ],
+        )
+        if context["profile"] == "draft":
+            parent = context["parent_record"]
+            pid = set_default(datatype, "pid", {})
+            pid.setdefault(
+                "provider-class",
+                parent.definition["pid"]["provider-class"],
+            )
+            pid.setdefault("field-args", ["create=True", "delete=False"])
+
         super().before_model_prepare(datatype, context=context, **kwargs)

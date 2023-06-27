@@ -1,4 +1,3 @@
-import marshmallow as ma
 from oarepo_model_builder.datatypes import DataTypeComponent, ModelDataType
 from oarepo_model_builder_tests.datatypes.components import ModelTestComponent
 

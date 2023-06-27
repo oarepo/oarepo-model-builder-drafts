@@ -10,9 +10,4 @@ class InvenioDraftsSetupCfgBuilder(OutputBuilder):
 
         output: CFGOutput = self.builder.get_output("cfg", "setup.cfg")
 
-        output.add_dependency(
-            "invenio-drafts-resources", ">=1.0.4"
-        )
-
-
-
+        output.add_dependency("invenio-drafts-resources", ">=1.0.4")

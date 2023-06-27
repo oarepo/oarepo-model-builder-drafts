@@ -1,7 +1,5 @@
 import marshmallow as ma
 from oarepo_model_builder.datatypes import ModelDataType
-from oarepo_model_builder.validation.utils import ImportSchema
-
 
 
 class DraftDataType(ModelDataType):
@@ -17,4 +15,3 @@ class DraftDataType(ModelDataType):
     def prepare(self, context):
         self.parent_record = context["parent_record"]
         super().prepare(context)
-

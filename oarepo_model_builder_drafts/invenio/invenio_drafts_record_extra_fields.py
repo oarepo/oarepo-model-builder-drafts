@@ -8,5 +8,7 @@ class InvenioDraftsRecordExtraFieldsBuilder(InvenioBaseClassPythonBuilder):
     record_section = "section_record"
 
     def finish(self, **extra_kwargs):
-        super().finish(record=getattr(self.current_model, self.record_section).config,
-                       **extra_kwargs)
+        super().finish(
+            record=getattr(self.current_model, self.record_section).config,
+            **extra_kwargs,
+        )

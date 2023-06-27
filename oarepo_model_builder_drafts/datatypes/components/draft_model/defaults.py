@@ -1,13 +1,6 @@
-import os
-from pathlib import Path
-
 from oarepo_model_builder.datatypes.components import DefaultsModelComponent
 from oarepo_model_builder.datatypes.components.model.utils import set_default
-from oarepo_model_builder.utils.camelcase import camel_case, snake_case
-from oarepo_model_builder.utils.python_name import (
-    convert_name_to_python,
-    split_base_name,
-)
+
 from oarepo_model_builder_drafts.datatypes import DraftDataType
 
 
@@ -20,9 +13,7 @@ class DraftDefaultsModelComponent(DefaultsModelComponent):
         set_default(datatype, "model-name", parent.definition["model-name"])
         module_container = set_default(datatype, "module", {})
         module_container.setdefault(
-            "prefix",
-            f"{parent.definition['module']['prefix']}Draft"
+            "prefix", f"{parent.definition['module']['prefix']}Draft"
         )
 
         super().before_model_prepare(datatype, context=context, **kwargs)
-

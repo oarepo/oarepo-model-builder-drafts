@@ -1,5 +1,6 @@
 from oarepo_model_builder.datatypes.components import JSONSchemaModelComponent
 from oarepo_model_builder.datatypes.components.model.utils import set_default
+
 from oarepo_model_builder_drafts.datatypes import DraftDataType
 
 
@@ -11,7 +12,9 @@ class DraftJSONSchemaModelComponent(JSONSchemaModelComponent):
         parent_datatype = context["parent_record"].definition
 
         json_schema = set_default(datatype, "json-schema-settings", {})
-        json_schema.setdefault("alias", parent_datatype["json-schema-settings"]["alias"])
+        json_schema.setdefault(
+            "alias", parent_datatype["json-schema-settings"]["alias"]
+        )
 
         json_schema.setdefault(
             "module",
