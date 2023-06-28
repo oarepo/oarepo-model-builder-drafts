@@ -1,27 +1,4 @@
-from invenio_drafts_resources.services.records.config import is_draft, is_record
-from invenio_records_resources.services import ConditionalLink
-from {{ current_model.record_class|package_name }} import {{ current_model.record_class|base_name }}
+{{ vars.record.class|generate_import }}
 
-class {{ current_model.record_service_config_class|base_name }}:
-    draft_cls = {{ current_model.record_class|base_name }}
-
-    @property
-    def links_item(self):
-        return {
-            "self": ConditionalLink(
-                cond=is_record,
-                if_=RecordLink("{+api}{self.url_prefix}{id}"),
-                else_=RecordLink("{+api}{self.url_prefix}{id}/draft"),
-            ),
-            "self_html": ConditionalLink(
-                cond=is_record,
-                if_=RecordLink("{+ui}{self.url_prefix}{id}"),
-                else_=RecordLink("{+ui}{self.url_prefix}{id}/draft"),
-            ),
-            "latest": RecordLink("{+api}{self.url_prefix}{id}/versions/latest"),
-            "latest_html": RecordLink("{+ui}{self.url_prefix}{id}/latest"),
-            "draft": RecordLink("{+api}{self.url_prefix}{id}/draft", when=is_record),
-            "record": RecordLink("{+api}{self.url_prefix}{id}", when=is_draft),
-            "publish": RecordLink("{+api}{self.url_prefix}{id}/draft/actions/publish", when=is_draft),
-            "versions": RecordLink("{+api}{self.url_prefix}{id}/versions"),
-        }
+class {{ parent_record.service_config|class_header }}:
+    draft_cls = {{ vars.record.class|base_name }}

@@ -1,4 +1,4 @@
-model:
+record:
   properties:
     metadata:
       properties:
@@ -6,11 +6,12 @@ model:
           type: fulltext
         status:
           type: keyword
+  module:
+    qualified: thesis
   permissions:
-    presets:
-    - everyone
-  package: thesis
-  schema-server: 'local://'
+    presets: [ 'everyone' ]
+#  package: thesis
+#  schema-server: 'local://'
   use:
   - invenio
 #files:

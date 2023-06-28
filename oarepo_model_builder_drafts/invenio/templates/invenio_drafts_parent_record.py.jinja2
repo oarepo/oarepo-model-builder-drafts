@@ -1,12 +1,13 @@
+{% if not vars.draft_parent_record.skip %}
 from invenio_records.systemfields import ConstantField
-from invenio_drafts_resources.records import ParentRecordStateMixin
-from {{ current_model.drafts_parent_record_metadata_class|package_name }} import {{ current_model.drafts_parent_record_metadata_class|base_name }}
-from {{ current_model.drafts_parent_record_parent_class|package_name }} import {{ current_model.drafts_parent_record_parent_class|base_name }}
+{{ vars.draft_parent_record.imports|generate_import }}
+{{ vars.draft_parent_record_metadata.class|generate_import }}
 
-class {{ current_model.drafts_parent_record_class|base_name }}({{ current_model.drafts_parent_record_parent_class|base_name }}): #TODO create special name for these? assuming yes
+class {{ vars.draft_parent_record|class_header }}: #TODO create special name for these? assuming yes
 
-    model_cls = {{ current_model.drafts_parent_record_metadata_class|base_name }}
+    model_cls = {{ vars.draft_parent_record_metadata.class|base_name }}
 
     schema = ConstantField(
-        "$schema", "{{ current_model.schema_server }}{{ current_model.drafts_parent_schema_name }}"
+        "$schema", "{{ settings.schema_server }}{{ vars.draft_parent_record_schema.name }}"
     )
+{% endif %}

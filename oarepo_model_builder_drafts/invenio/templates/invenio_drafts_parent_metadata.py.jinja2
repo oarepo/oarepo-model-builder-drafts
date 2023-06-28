@@ -1,7 +1,8 @@
-from invenio_db import db
-from {{ current_model.record_metadata_parent_class|package_name }} import {{ current_model.record_metadata_parent_class|base_name }}
+{% if not vars.draft_parent_record_metadata.skip %}
+{{ vars.draft_parent_record_metadata.imports|generate_import }}
 
 
-class {{ current_model.drafts_parent_record_metadata_class|base_name }}(db.Model, {{ current_model.record_metadata_parent_class|base_name }}):
+class {{ vars.draft_parent_record_metadata|class_header }}:
 
-    __tablename__ = "{{ current_model.record_prefix_snake }}_parent_metadata"
+    __tablename__ = "{{ vars.module.prefix_snake }}_parent_metadata"
+{% endif %}

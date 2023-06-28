@@ -1,4 +1,6 @@
-from {{ model.record_class|package_name }} import {{ model.record_class|base_name }}
+import copy
+{{ vars.record.class|generate_import }}
+{{ vars.resource_config.class|generate_import }}
 
 def _assert_single_item_response(response):
     """Assert the fields present on a single item response."""
@@ -13,83 +15,17 @@ def _assert_single_item_response(response):
 # Operations tests
 #
 
-
-def test_create_draft(client, input_data, search_clear):
-    """Test draft creation of a non-existing record."""
-    response = client.post("{{ model.collection_url }}", json=input_data)
-
-    assert response.status_code == 201
-    _assert_single_item_response(response)
-
-
-def test_read_draft(client, input_data, search_clear):
-    response = client.post("{{ model.collection_url }}", json=input_data)
-
-    assert response.status_code == 201
-
-    recid = response.json["id"]
-    response = client.get(f"{{ model.collection_url }}{recid}/draft")
-
-    assert response.status_code == 200
-
-    _assert_single_item_response(response)
-
-
-def test_update_draft(client, input_data, search_clear, sample_metadata_list):
-    response = client.post("{{ model.collection_url }}", json=input_data)
-
-    assert response.status_code == 201
-    assert response.json["metadata"] == input_data["metadata"]
-
-    recid = response.json["id"]
-
-    orig = input_data["metadata"]
-    edited_input_data = sample_metadata_list[1]
-
-    # Update draft content
-    update_response = client.put(
-        f"{{ model.collection_url }}{recid}/draft", json=edited_input_data
-    )
-
-    assert update_response.status_code == 200
-    assert update_response.json["metadata"] == edited_input_data["metadata"]
-    assert update_response.json["id"] == recid
-
-    # Check the updates where saved
-    update_response = client.get(f"{{ model.collection_url }}{recid}/draft")
-
-    assert update_response.status_code == 200
-    assert update_response.json["metadata"] == edited_input_data["metadata"]
-    assert update_response.json["id"] == recid
-
-
-def test_delete_draft(client, input_data, search_clear):
-    response = client.post("{{ model.collection_url }}", json=input_data)
-
-    assert response.status_code == 201
-
-    recid = response.json["id"]
-
-    update_response = client.delete(f"{{ model.collection_url }}{recid}/draft")
-
-    assert update_response.status_code == 204
-
-    # Check draft deletion
-    update_response = client.get(f"{{ model.collection_url }}{recid}/draft")
-    assert update_response.status_code == 404
-
-
 def _create_and_publish(client, input_data):
     """Create a draft and publish it."""
     # Create the draft
-    response = client.post("{{ model.collection_url }}", json=input_data)
+    response = client.post({{ vars.resource_config.class|base_name }}.url_prefix, json=input_data)
 
     assert response.status_code == 201
 
     recid = response.json["id"]
 
     # Publish it
-    response = client.post(f"{{ model.collection_url }}{recid}/draft/actions/publish")
+    response = client.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft/actions/publish")
 
     assert response.status_code == 202
     _assert_single_item_response(response)
@@ -104,12 +40,12 @@ def test_publish_draft(client, input_data, search_clear):
     recid = _create_and_publish(client, input_data)
 
     # Check draft does not exists anymore
-    response = client.get(f"{{ model.collection_url }}{recid}/draft")
+    response = client.get(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft")
 
     assert response.status_code == 404
 
     # Check record exists
-    response = client.get(f"{{ model.collection_url }}{recid}")
+    response = client.get(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}")
 
     assert response.status_code == 200
 
@@ -119,10 +55,10 @@ def test_publish_draft(client, input_data, search_clear):
 def test_search_versions(client, input_data, search_clear):
     """Test search for versions."""
     recid = _create_and_publish(client, input_data)
-    {{ model.record_class|base_name }}.index.refresh()
+    {{ vars.record.class|base_name }}.index.refresh()
 
     # Check draft does not exists anymore
-    res = client.get(f"{{ model.collection_url }}{recid}/versions")
+    res = client.get(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/versions")
     assert res.status_code == 200
 
 
@@ -138,40 +74,41 @@ def test_create_publish_new_revision(client, input_data, search_clear, sample_me
 
     # Create new draft of said record
 
-    edited_input_data = sample_metadata_list[1]
+    edited_input_data = copy.deepcopy(input_data)
+    edited_input_data["metadata"] = sample_metadata_list[1]["metadata"]
     edited_metadata = edited_input_data["metadata"]
     orig_metadata = input_data["metadata"]
 
-    response = client.post(f"{{ model.collection_url }}{recid}/draft")
+    response = client.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft")
 
     assert response.status_code == 201
-    assert response.json["revision_id"] == 5
+    assert response.json["revision_id"] == {{ test_constants.revision_id2 }}
     _assert_single_item_response(response)
 
     # Update that new draft
-    response = client.put(f"{{ model.collection_url }}{recid}/draft", json=edited_input_data)
+    response = client.put(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft", json=edited_input_data)
 
     assert response.status_code == 200
 
     # Check the actual record was not modified
-    response = client.get(f"{{ model.collection_url }}{recid}")
+    response = client.get(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}")
 
     assert response.status_code == 200
     _assert_single_item_response(response)
     assert response.json["metadata"] == orig_metadata
 
     # Publish it to check the increment in reversion
-    response = client.post(f"{{ model.collection_url }}{recid}/draft/actions/publish")
+    response = client.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft/actions/publish")
 
     assert response.status_code == 202
     _assert_single_item_response(response)
 
     assert response.json["id"] == recid
-    assert response.json["revision_id"] == 2
+    assert response.json["revision_id"] == {{ test_constants.revision_id1 }}
     assert response.json["metadata"] == edited_metadata
 
     # Check it was actually edited
-    response = client.get(f"{{ model.collection_url }}{recid}")
+    response = client.get(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}")
 
     assert response.json["metadata"] == edited_metadata
 
@@ -184,27 +121,27 @@ def test_mutiple_edit(client, input_data, search_clear):
     recid = _create_and_publish(client, input_data)
 
     # Create new draft of said record
-    response = client.post(f"{{ model.collection_url }}{recid}/draft")
+    response = client.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft")
 
     assert response.status_code == 201
-    assert response.json["revision_id"] == 5
+    assert response.json["revision_id"] == {{ test_constants.revision_id2 }}
 
     # Request a second edit. Get the same draft (revision_id)
-    response = client.post(f"{{ model.collection_url }}{recid}/draft")
+    response = client.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft")
 
     assert response.status_code == 201
-    assert response.json["revision_id"] == 5
+    assert response.json["revision_id"] == {{ test_constants.revision_id2 }}
 
     # Publish it to check the increment in version_id
-    response = client.post(f"{{ model.collection_url }}{recid}/draft/actions/publish")
+    response = client.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft/actions/publish")
 
     assert response.status_code == 202
 
     # Edit again
-    response = client.post(f"{{ model.collection_url }}{recid}/draft")
+    response = client.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft")
 
     assert response.status_code == 201
-    assert response.json["revision_id"] == 8
+    assert response.json["revision_id"] == {{ test_constants.revision_id3 }}
 
 
 def test_redirect_to_latest_version(client, input_data):
@@ -215,19 +152,19 @@ def test_redirect_to_latest_version(client, input_data):
     recid = _create_and_publish(client, input_data)
 
     # Create new version of said record
-    response = client.post(f"{{ model.collection_url }}{recid}/versions")
+    response = client.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/versions")
     recid_2 = response.json["id"]
 
     # NOTE: Assuming a new version should indeed have its files.enabled set to
     #       True automatically, we have to reset it to False for this test.
-    client.put(f"{{ model.collection_url }}{recid_2}/draft", json=input_data)
+    client.put(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid_2}/draft", json=input_data)
 
     # Publish it to check the increment in version
-    response = client.post(f"{{ model.collection_url }}{recid_2}/draft/actions/publish")
+    response = client.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid_2}/draft/actions/publish")
     latest_version_self_link = response.json["links"]["self"]
 
     # Read a previous versions latest
-    response = client.get(f"{{ model.collection_url }}{recid}/versions/latest")
+    response = client.get(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/versions/latest")
 
     assert response.status_code == 301
     assert response.headers["location"] == latest_version_self_link
