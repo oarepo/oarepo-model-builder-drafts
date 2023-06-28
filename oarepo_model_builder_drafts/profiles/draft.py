@@ -20,7 +20,8 @@ class DraftProfile(RecordProfile):
         **kwargs,
     ):
         parent_record = model.get_schema_section("record", model_path[:-1])
-        dict_setdefault(model.schema, model_path, default={})
+        if not dict_get(model.schema, model_path): #todo the record profile builders could present a problem if this situation means nothing related to drafts will be generated but the plugin is installed
+            return
         draft_profile = dict_get(model.schema, model_path)
         draft_profile["type"] = "draft_record"
 
