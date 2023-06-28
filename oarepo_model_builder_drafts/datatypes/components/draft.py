@@ -9,20 +9,22 @@ from oarepo_model_builder.datatypes.components import (
     PIDModelComponent,
     RecordModelComponent,
     ResourceModelComponent,
-    ServiceModelComponent,
+    ServiceModelComponent, DefaultsModelComponent,
 )
 from oarepo_model_builder.datatypes.components.model.utils import set_default
 from oarepo_model_builder.datatypes.model import Link
+import marshmallow as ma
+def get_draft_schema():
+    from ..draft import DraftDataType
 
+    return DraftDataType.validator()
 
 class DraftComponent(DataTypeComponent):
     eligible_datatypes = [ModelDataType]
-    affects = [
-        RecordModelComponent,
-        ServiceModelComponent,
-        ResourceModelComponent,
-        PIDModelComponent,
-    ]
+    affects = [DefaultsModelComponent]
+    class ModelSchema(ma.Schema):
+        draft = ma.fields.Nested(get_draft_schema)
+
 
     def process_links(self, datatype, section: Section, **kwargs):
         # add files link item
