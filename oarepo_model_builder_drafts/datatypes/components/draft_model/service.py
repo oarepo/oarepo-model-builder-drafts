@@ -21,6 +21,9 @@ class DraftServiceModelComponent(ServiceModelComponent):
             record_service_config.setdefault(
                 "class", parent_record_datatype.definition["service-config"]["class"]
             )
+            record_service_config.setdefault(
+                "service-id", parent_record_datatype.definition["service-config"]["service-id"]
+            )
 
         if context["profile"] == "record":
             record_service.setdefault(
