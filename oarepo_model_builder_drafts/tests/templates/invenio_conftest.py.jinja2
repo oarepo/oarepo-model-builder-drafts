@@ -9,4 +9,10 @@ def {{ fixtures.sample_record }}(app, db, input_data):
         uow.commit()
         return record
 
+@pytest.fixture()
+def vocab_cf(app, db, cache):
+    from oarepo_runtime.cf.mappings import prepare_cf_indices
+
+    prepare_cf_indices()
+
 
