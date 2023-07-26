@@ -1,6 +1,18 @@
 import copy
+
 {{ vars.record.class|generate_import }}
+{{ parent_record.record.class|generate_import }}
 {{ vars.resource_config.class|generate_import }}
+
+#todo move to conftest
+from invenio_records_resources.services.custom_fields import BooleanCF
+import pytest
+@pytest.fixture(scope="module")
+def app_config(app_config):
+    app_config["HAS_DRAFT"] = [
+        BooleanCF("has_draft")
+    ]
+    return app_config
 
 def _assert_single_item_response(response):
     """Assert the fields present on a single item response."""
@@ -144,7 +156,7 @@ def test_mutiple_edit(client, input_data, search_clear):
     assert response.json["revision_id"] == {{ test_constants.revision_id3 }}
 
 
-def test_redirect_to_latest_version(client, input_data):
+def test_redirect_to_latest_version(client, input_data, search_clear):
     """Creates a new version of a record.
 
     Publishes the draft to obtain 2 versions of a record.
@@ -168,3 +180,27 @@ def test_redirect_to_latest_version(client, input_data):
 
     assert response.status_code == 301
     assert response.headers["location"] == latest_version_self_link
+
+
+def test_list_drafts(client, input_data, vocab_cf, search_clear):
+    assert len(client.get({{ vars.resource_config.class|base_name }}.url_prefix).json["hits"]["hits"]) == 0
+    assert len(client.get(f"user{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}").json["hits"]["hits"]) == 0
+
+    create_draft_response = client.post(ThesisResourceConfig.url_prefix, json=input_data)
+    assert create_draft_response.status_code == 201
+    recid = create_draft_response.json["id"]
+
+    {{ vars.record.class|base_name }}.index.refresh()
+    {{ parent_record.record.class|base_name }}.index.refresh()
+    assert len(client.get({{ vars.resource_config.class|base_name }}.url_prefix).json["hits"]["hits"]) == 0
+    assert len(client.get(f"user{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}").json["hits"]["hits"]) == 1
+
+    response_publish = client.post(
+        f"{ThesisResourceConfig.url_prefix}{recid}/draft/actions/publish"
+    )
+    assert response_publish.status_code == 202
+
+    {{ vars.record.class|base_name }}.index.refresh()
+    {{ parent_record.record.class|base_name }}.index.refresh()
+    assert len(client.get({{ vars.resource_config.class|base_name }}.url_prefix).json["hits"]["hits"]) == 1
+    assert len(client.get(f"user{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}").json["hits"]["hits"]) == 0
