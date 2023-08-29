@@ -1,6 +1,6 @@
 from oarepo_model_builder.datatypes import DataType, ModelDataType
 from oarepo_model_builder.datatypes.components import ServiceModelComponent
-from oarepo_model_builder.datatypes.components.model.utils import set_default
+from oarepo_model_builder.datatypes.components.model.utils import set_default, append_array
 
 
 class DraftServiceModelComponent(ServiceModelComponent):
@@ -35,17 +35,17 @@ class DraftServiceModelComponent(ServiceModelComponent):
                     }
                 ],
             )
+
             record_service_config.setdefault(
-                "imports",
-                [
-                    {
-                        "import": "invenio_drafts_resources.services.RecordServiceConfig",
-                        "alias": "InvenioRecordServiceConfig",
-                    },
-                    {
-                        "import": "oarepo_runtime.config.service.PermissionsPresetsConfigMixin"
-                    },
-                ],
+                "base-classes",
+                ["PermissionsPresetsConfigMixin", "InvenioRecordDraftsServiceConfig"],
             )
+
+            append_array(datatype, "service-config", "imports",
+                         {
+                             "import": "invenio_drafts_resources.services.RecordServiceConfig",
+                             "alias": "InvenioRecordDraftsServiceConfig",
+                         },
+                         )
 
         super().before_model_prepare(datatype, context=context, **kwargs)
