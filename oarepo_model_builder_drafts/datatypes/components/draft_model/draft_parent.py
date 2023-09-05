@@ -88,6 +88,7 @@ class DraftParentRecordMetadataSchema:
     module = ma.fields.String(
         metadata={"doc": "Module where the facets will be placed"}
     )
+    table = ma.fields.String()
     generate = ma.fields.Boolean()
     skip = ma.fields.Boolean()
 
@@ -139,9 +140,15 @@ class DraftParentComponent(DataTypeComponent):
         records_path = module_to_path(
             parent_module(datatype.definition["record"]["module"])
         )
+        is_record = context["profile"] == "record"
+        if not is_record:
+            parent_record_datatype = context["parent_record"]
 
         draft_parent_record = set_default(datatype, "draft-parent-record", {})
-        draft_parent_record.setdefault("class", f"{record_module}.DraftParentRecord")
+        if is_record:
+            draft_parent_record.setdefault("class", f"{record_module}.{record_prefix}ParentRecord")
+        else:
+            draft_parent_record.setdefault("class", parent_record_datatype.definition["draft-parent-record"]["class"])
         draft_parent_record.setdefault("base-classes", ["ParentRecord"])
         draft_parent_record.setdefault(
             "imports", [{"import": "invenio_drafts_resources.records.api.ParentRecord"}]
@@ -152,7 +159,10 @@ class DraftParentComponent(DataTypeComponent):
         draft_parent_record_state = set_default(
             datatype, "draft-parent-record-state", {}
         )
-        draft_parent_record_state.setdefault("class", f"{metadata_module}.ParentState")
+        if is_record:
+            draft_parent_record_state.setdefault("class", f"{metadata_module}.{record_prefix}ParentState")
+        else:
+            draft_parent_record_state.setdefault("class", parent_record_datatype.definition["draft-parent-record-state"]["class"])
         draft_parent_record_state.setdefault(
             "base-classes", ["db.Model", "ParentRecordStateMixin"]
         )
@@ -165,14 +175,19 @@ class DraftParentComponent(DataTypeComponent):
         )
         draft_parent_record_state.setdefault("module", metadata_module)
         draft_parent_record_state.setdefault("generate", True)
-        draft_parent_record_state.setdefault("table", "parent_state_metadata")
+        draft_parent_record_state.setdefault("table", f"{datatype.definition['module']['qualified']}_parent_state_metadata")
 
         draft_parent_record_metadata = set_default(
             datatype, "draft-parent-record-metadata", {}
         )
-        draft_parent_record_metadata.setdefault(
-            "class", f"{metadata_module}.DraftParentMetadata"
-        )
+        if is_record:
+            draft_parent_record_metadata.setdefault(
+                "class", f"{metadata_module}.{record_prefix}ParentMetadata"
+            )
+        else:
+            draft_parent_record_metadata.setdefault(
+                "class", parent_record_datatype.definition["draft-parent-record-metadata"]["class"]
+            )
         draft_parent_record_metadata.setdefault(
             "base-classes", ["db.Model", "RecordMetadataBase"]
         )
@@ -183,6 +198,7 @@ class DraftParentComponent(DataTypeComponent):
                 {"import": "invenio_db.db"},
             ],
         )
+        draft_parent_record_metadata.setdefault("table", f"{datatype.definition['module']['qualified']}_parent_record_metadata")
         draft_parent_record_metadata.setdefault("module", metadata_module)
         draft_parent_record_metadata.setdefault("generate", True)
 
