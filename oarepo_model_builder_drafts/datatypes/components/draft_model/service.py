@@ -1,6 +1,9 @@
 from oarepo_model_builder.datatypes import DataType, ModelDataType
 from oarepo_model_builder.datatypes.components import ServiceModelComponent
-from oarepo_model_builder.datatypes.components.model.utils import set_default, append_array
+from oarepo_model_builder.datatypes.components.model.utils import (
+    append_array,
+    set_default,
+)
 
 
 class DraftServiceModelComponent(ServiceModelComponent):
@@ -22,7 +25,8 @@ class DraftServiceModelComponent(ServiceModelComponent):
                 "class", parent_record_datatype.definition["service-config"]["class"]
             )
             record_service_config.setdefault(
-                "service-id", parent_record_datatype.definition["service-config"]["service-id"]
+                "service-id",
+                parent_record_datatype.definition["service-config"]["service-id"],
             )
 
         if context["profile"] == "record":
@@ -41,11 +45,14 @@ class DraftServiceModelComponent(ServiceModelComponent):
                 ["PermissionsPresetsConfigMixin", "InvenioRecordDraftsServiceConfig"],
             )
 
-            append_array(datatype, "service-config", "imports",
-                         {
-                             "import": "invenio_drafts_resources.services.RecordServiceConfig",
-                             "alias": "InvenioRecordDraftsServiceConfig",
-                         },
-                         )
+            append_array(
+                datatype,
+                "service-config",
+                "imports",
+                {
+                    "import": "invenio_drafts_resources.services.RecordServiceConfig",
+                    "alias": "InvenioRecordDraftsServiceConfig",
+                },
+            )
 
         super().before_model_prepare(datatype, context=context, **kwargs)

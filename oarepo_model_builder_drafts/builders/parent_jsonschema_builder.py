@@ -12,18 +12,10 @@ class JSONSchemaDraftsParentBuilder(JSONSchemaBuilder):
         return {
             "type": "object",
             "properties": {
-                "$schema": {
-                    "type": "keyword"
-                },
-                "created": {
-                    "type": "datetime"
-                },
-                "id": {
-                    "type": "keyword"
-                },
-                "updated": {
-                    "type": "datetime"
-                }
+                "$schema": {"type": "keyword"},
+                "created": {"type": "datetime"},
+                "id": {"type": "keyword"},
+                "updated": {"type": "datetime"},
             },
         }
 

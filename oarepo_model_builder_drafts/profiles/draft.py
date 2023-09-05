@@ -4,7 +4,7 @@ from typing import List, Union
 from oarepo_model_builder.builder import ModelBuilder
 from oarepo_model_builder.profiles.record import RecordProfile
 from oarepo_model_builder.schema import ModelSchema
-from oarepo_model_builder.utils.dict import dict_get, dict_setdefault
+from oarepo_model_builder.utils.dict import dict_get
 
 
 class DraftProfile(RecordProfile):
@@ -20,7 +20,7 @@ class DraftProfile(RecordProfile):
         **kwargs,
     ):
         parent_record = model.get_schema_section("record", model_path[:-1])
-        if not dict_get(model.schema, model_path): #todo the record profile builders could present a problem if this situation means nothing related to drafts will be generated but the plugin is installed
+        if not dict_get(model.schema, model_path):
             return
         draft_profile = dict_get(model.schema, model_path)
         draft_profile["type"] = "draft_record"
