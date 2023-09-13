@@ -25,6 +25,7 @@ class DraftComponent(DataTypeComponent):
         draft = ma.fields.Nested(get_draft_schema)
 
     def process_links(self, datatype, section: Section, **kwargs):
+        url_prefix = datatype.definition["resource-config"]["base-url"]
         # add files link item
         if self.is_record_profile:
             if "links_search" in section.config:
@@ -39,8 +40,8 @@ class DraftComponent(DataTypeComponent):
                     link_class="ConditionalLink",
                     link_args=[
                         "cond=is_record",
-                        'if_=RecordLink("{+api}{self.url_prefix}{id}")',
-                        'else_=RecordLink("{+api}{self.url_prefix}{id}/draft")',
+                        f'if_=RecordLink("{{+api}}{url_prefix}{{id}}")',
+                        f'else_=RecordLink("{{+api}}{url_prefix}{{id}}/draft")',
                     ],
                     imports=[
                         Import("invenio_records_resources.services.ConditionalLink"),
@@ -55,7 +56,7 @@ class DraftComponent(DataTypeComponent):
                     link_class="ConditionalLink",
                     link_args=[
                         "cond=is_record",
-                        'if_=RecordLink("{+ui}{self.url_prefix}{id}")',
+                        f'if_=RecordLink("{{+ui}}{url_prefix}{{id}}")',
                         'else_=RecordLink("{+ui}/uploads/{id}")',
                     ],
                     imports=[
@@ -69,37 +70,37 @@ class DraftComponent(DataTypeComponent):
                 Link(
                     name="latest",
                     link_class="RecordLink",
-                    link_args=['"{+api}/{self.url_prefix}{id}/versions/latest"'],
+                    link_args=[f'"{{+api}}{url_prefix}{{id}}/versions/latest"'],
                     imports=[Import("invenio_records_resources.services.RecordLink")],
                 ),
                 Link(
                     name="latest_html",
                     link_class="RecordLink",
-                    link_args=['"{+ui}/{self.url_prefix}{id}/latest"'],
+                    link_args=[f'"{{+ui}}{url_prefix}{{id}}/latest"'],
                     imports=[Import("invenio_records_resources.services.RecordLink")],
                 ),
                 Link(
                     name="draft",
                     link_class="RecordLink",
-                    link_args=['"{+api}/{self.url_prefix}{id}/draft"'],
+                    link_args=[f'"{{+api}}{url_prefix}{{id}}/draft"'],
                     imports=[Import("invenio_records_resources.services.RecordLink")],
                 ),
                 Link(
                     name="record",
                     link_class="RecordLink",
-                    link_args=['"{+api}/{self.url_prefix}{id}"'],
+                    link_args=[f'"{{+api}}{url_prefix}{{id}}"'],
                     imports=[Import("invenio_records_resources.services.RecordLink")],
                 ),
                 Link(
                     name="publish",
                     link_class="RecordLink",
-                    link_args=['"{+api}/{self.url_prefix}{id}/draft/actions/publish"'],
+                    link_args=[f'"{{+api}}{url_prefix}{{id}}/draft/actions/publish"'],
                     imports=[Import("invenio_records_resources.services.RecordLink")],
                 ),
                 Link(
                     name="versions",
                     link_class="RecordLink",
-                    link_args=['"{+api}/{self.url_prefix}{id}/versions"'],
+                    link_args=[f'"{{+api}}{url_prefix}{{id}}/versions"'],
                     imports=[Import("invenio_records_resources.services.RecordLink")],
                 ),
             ]
