@@ -1,4 +1,5 @@
 from oarepo_model_builder.datatypes import DataTypeComponent, ModelDataType
+from oarepo_model_builder.utils.links import url_prefix2link
 from oarepo_model_builder_tests.datatypes.components import ModelTestComponent
 
 
@@ -11,7 +12,7 @@ class DraftModelTestComponent(DataTypeComponent):
             "record_service": "record_service",
             "sample_record": "sample_draft",
         }
-
+        #base_url = url_prefix2link(datatype.definition["resource-config"]["url-prefix"])
         section.constants = {
             "read_url": "/draft",
             "update_url": "/draft",
@@ -26,4 +27,24 @@ class DraftModelTestComponent(DataTypeComponent):
             "revision_id1": 2,
             "revision_id2": 5,
             "revision_id3": 8,
+            "links": {
+                "draft": "https://{site_hostname}/api{BASE_URL}{pid_value}/draft",
+                "latest": "https://{site_hostname}/api{BASE_URL}{pid_value}/versions/latest",
+                "latest_html": "https://{site_hostname}{BASE_URL}{pid_value}/latest",
+                "publish": "https://{site_hostname}/api{BASE_URL}{pid_value}/draft/actions/publish",
+                "record": "https://{site_hostname}/api{BASE_URL}{pid_value}",
+                "self": "https://{site_hostname}/api{BASE_URL}{pid_value}/draft",
+                "self_html": "https://{site_hostname}/uploads/{pid_value}",
+                "versions": "https://{site_hostname}/api{BASE_URL}{pid_value}/versions",
+            },
+            "links_record": {
+                "draft": "https://{site_hostname}/api{BASE_URL}{pid_value}/draft",
+                "latest": "https://{site_hostname}/api{BASE_URL}{pid_value}/versions/latest",
+                "latest_html": "https://{site_hostname}{BASE_URL}{pid_value}/latest",
+                "publish": "https://{site_hostname}/api{BASE_URL}{pid_value}/draft/actions/publish",
+                "record": "https://{site_hostname}/api{BASE_URL}{pid_value}",
+                "self": "https://{site_hostname}/api{BASE_URL}{pid_value}",
+                "self_html": "https://{site_hostname}{BASE_URL}{pid_value}",
+                "versions": "https://{site_hostname}/api{BASE_URL}{pid_value}/versions",
+            }
         }

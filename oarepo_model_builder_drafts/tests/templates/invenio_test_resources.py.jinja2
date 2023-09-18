@@ -204,3 +204,19 @@ def test_list_drafts(client, input_data, vocab_cf, search_clear):
     {{ parent_record.record.class|base_name }}.index.refresh()
     assert len(client.get({{ vars.resource_config.class|base_name }}.url_prefix).json["hits"]["hits"]) == 1
     assert len(client.get(f"user{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}").json["hits"]["hits"]) == 0
+
+
+def assert_expected_links_record(pid_value, links, site_hostname="127.0.0.1:5000"):
+    """Compare generated links to expected links."""
+    expected_links = {
+        {% for link_name, link in test_constants.links_record.items() %}
+        "{{ link_name }}": f"{{ link }}",
+        {% endfor %}
+    }
+    assert expected_links.items() <= links.items()
+
+def test_read_links_record(app, client, input_data):
+    pid_value = _create_and_publish(client, input_data)
+    res = client.get(f"{BASE_URL}{pid_value}")
+
+    assert_expected_links_record(pid_value, res.json["links"])
