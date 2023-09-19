@@ -1,5 +1,4 @@
 from oarepo_model_builder.datatypes import DataTypeComponent, ModelDataType
-from oarepo_model_builder.utils.links import url_prefix2link
 from oarepo_model_builder_tests.datatypes.components import ModelTestComponent
 
 
@@ -12,7 +11,6 @@ class DraftModelTestComponent(DataTypeComponent):
             "record_service": "record_service",
             "sample_record": "sample_draft",
         }
-        #base_url = url_prefix2link(datatype.definition["resource-config"]["url-prefix"])
         section.constants = {
             "read_url": "/draft",
             "update_url": "/draft",
@@ -46,5 +44,5 @@ class DraftModelTestComponent(DataTypeComponent):
                 "self": "https://{site_hostname}/api{BASE_URL}{pid_value}",
                 "self_html": "https://{site_hostname}{BASE_URL}{pid_value}",
                 "versions": "https://{site_hostname}/api{BASE_URL}{pid_value}/versions",
-            }
+            },
         }
