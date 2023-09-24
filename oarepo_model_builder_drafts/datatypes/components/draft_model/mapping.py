@@ -1,8 +1,13 @@
-from oarepo_model_builder.datatypes import DataTypeComponent, datatypes, ModelDataType
-from oarepo_model_builder.datatypes.components import MappingModelComponent, DefaultsModelComponent, \
-    RecordModelComponent, JSONSchemaModelComponent
-
 import copy
+
+from oarepo_model_builder.datatypes import ModelDataType, datatypes
+from oarepo_model_builder.datatypes.components import (
+    DefaultsModelComponent,
+    JSONSchemaModelComponent,
+    MappingModelComponent,
+    RecordModelComponent,
+)
+
 
 class DraftMappingModelComponent(MappingModelComponent):
     eligible_datatypes = [ModelDataType]
@@ -47,7 +52,9 @@ class DraftMappingModelComponent(MappingModelComponent):
         if context["profile"] == "record" and "mapping" in datatype.definition:
             self.mapping_default = copy.deepcopy(datatype.definition["mapping"])
 
-        if self.is_draft_profile and hasattr(self, "mapping_default"): #in case the draft profile is ran before record profile, it should be on parent record that is before before_model_prepare is called?
+        if self.is_draft_profile and hasattr(
+            self, "mapping_default"
+        ):  # in case the draft profile is ran before record profile, it should be on parent record that is before before_model_prepare is called?
             mapping = datatype.definition.get("mapping", {}) | self.mapping_default
             datatype.definition["mapping"] = mapping
 
