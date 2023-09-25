@@ -9,6 +9,7 @@ from oarepo_model_builder.datatypes import (
 from oarepo_model_builder.datatypes.components import DefaultsModelComponent
 from oarepo_model_builder.datatypes.components.model.utils import set_default
 from oarepo_model_builder.datatypes.model import Link
+from oarepo_model_builder.utils.links import url_prefix2link
 
 
 def get_draft_schema():
@@ -25,7 +26,8 @@ class DraftComponent(DataTypeComponent):
         draft = ma.fields.Nested(get_draft_schema)
 
     def process_links(self, datatype, section: Section, **kwargs):
-        url_prefix = datatype.definition["resource-config"]["base-url"]
+        url_prefix = url_prefix2link(datatype.definition["resource-config"]["base-url"])
+        html_url_prefix = url_prefix2link(datatype.definition["resource-config"]["base-html-url"])
         # add files link item
         if self.is_record_profile:
             if "links_search" in section.config:
@@ -56,7 +58,7 @@ class DraftComponent(DataTypeComponent):
                     link_class="ConditionalLink",
                     link_args=[
                         "cond=is_record",
-                        f'if_=RecordLink("{{+ui}}{url_prefix}{{id}}")',
+                        f'if_=RecordLink("{{+ui}}{html_url_prefix}{{id}}")',
                         'else_=RecordLink("{+ui}/uploads/{id}")',
                     ],
                     imports=[
@@ -76,7 +78,7 @@ class DraftComponent(DataTypeComponent):
                 Link(
                     name="latest_html",
                     link_class="RecordLink",
-                    link_args=[f'"{{+ui}}{url_prefix}{{id}}/latest"'],
+                    link_args=[f'"{{+ui}}{html_url_prefix}{{id}}/latest"'],
                     imports=[Import("invenio_records_resources.services.RecordLink")],
                 ),
                 Link(
