@@ -32,7 +32,7 @@ class DraftModelTestComponent(DataTypeComponent):
                 "publish": "https://{site_hostname}/api{BASE_URL}{pid_value}/draft/actions/publish",
                 "record": "https://{site_hostname}/api{BASE_URL}{pid_value}",
                 "self": "https://{site_hostname}/api{BASE_URL}{pid_value}/draft",
-                "self_html": "https://{site_hostname}/uploads/{pid_value}",
+                "self_html": "https://{site_hostname}{BASE_URL}{pid_value}/edit",
                 "versions": "https://{site_hostname}/api{BASE_URL}{pid_value}/versions",
             },
             "links_record": {

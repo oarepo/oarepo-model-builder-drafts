@@ -59,7 +59,7 @@ class DraftComponent(DataTypeComponent):
                     link_args=[
                         "cond=is_record",
                         f'if_=RecordLink("{{+ui}}{html_url_prefix}{{id}}")',
-                        'else_=RecordLink("{+ui}/uploads/{id}")',
+                        f'else_=RecordLink("{{+ui}}{html_url_prefix}{{id}}/edit")',
                     ],
                     imports=[
                         Import("invenio_records_resources.services.ConditionalLink"),
