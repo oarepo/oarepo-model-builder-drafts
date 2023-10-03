@@ -17,16 +17,16 @@ class DraftServiceModelComponent(ServiceModelComponent):
         record_service_config = set_default(datatype, "service-config", {})
 
         if context["profile"] == "draft":
-            parent_record_datatype: DataType = context["parent_record"]
+            published_record_datatype: DataType = context["published_record"]
             record_service.setdefault(
-                "class", parent_record_datatype.definition["service"]["class"]
+                "class", published_record_datatype.definition["service"]["class"]
             )
             record_service_config.setdefault(
-                "class", parent_record_datatype.definition["service-config"]["class"]
+                "class", published_record_datatype.definition["service-config"]["class"]
             )
             record_service_config.setdefault(
                 "service-id",
-                parent_record_datatype.definition["service-config"]["service-id"],
+                published_record_datatype.definition["service-config"]["service-id"],
             )
 
         if context["profile"] == "record":

@@ -28,11 +28,11 @@ class DraftPIDModelComponent(PIDModelComponent):
             ],
         )
         if context["profile"] == "draft":
-            parent = context["parent_record"]
+            published = context["published_record"]
             pid = set_default(datatype, "pid", {})
             pid.setdefault(
                 "provider-class",
-                parent.definition["pid"]["provider-class"],
+                published.definition["pid"]["provider-class"],
             )
             pid.setdefault("field-args", ["create=True", "delete=False"])
 

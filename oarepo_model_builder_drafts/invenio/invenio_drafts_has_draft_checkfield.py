@@ -7,4 +7,4 @@ class InvenioDraftsHasDraftCheckfieldBuilder(InvenioBaseClassPythonBuilder):
     template = "drafts-has-draft-checkfield"
 
     def finish(self, **extra_kwargs):
-        super().finish(parent_record=self.current_model.parent_record, **extra_kwargs)
+        super().finish(published_record=self.current_model.published_record, **extra_kwargs)

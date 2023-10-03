@@ -142,7 +142,7 @@ class DraftParentComponent(DataTypeComponent):
         )
         is_record = context["profile"] == "record"
         if not is_record:
-            parent_record_datatype = context["parent_record"]
+            published_record_datatype = context["published_record"]
 
         draft_parent_record = set_default(datatype, "draft-parent-record", {})
         if is_record:
@@ -152,7 +152,7 @@ class DraftParentComponent(DataTypeComponent):
         else:
             draft_parent_record.setdefault(
                 "class",
-                parent_record_datatype.definition["draft-parent-record"]["class"],
+                published_record_datatype.definition["draft-parent-record"]["class"],
             )
         draft_parent_record.setdefault("base-classes", ["ParentRecord"])
         draft_parent_record.setdefault(
@@ -171,7 +171,7 @@ class DraftParentComponent(DataTypeComponent):
         else:
             draft_parent_record_state.setdefault(
                 "class",
-                parent_record_datatype.definition["draft-parent-record-state"]["class"],
+                published_record_datatype.definition["draft-parent-record-state"]["class"],
             )
         draft_parent_record_state.setdefault(
             "base-classes", ["db.Model", "ParentRecordStateMixin"]
@@ -200,7 +200,7 @@ class DraftParentComponent(DataTypeComponent):
         else:
             draft_parent_record_metadata.setdefault(
                 "class",
-                parent_record_datatype.definition["draft-parent-record-metadata"][
+                published_record_datatype.definition["draft-parent-record-metadata"][
                     "class"
                 ],
             )

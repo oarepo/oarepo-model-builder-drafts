@@ -9,25 +9,25 @@ class DraftJSONSchemaModelComponent(JSONSchemaModelComponent):
     dependency_remap = JSONSchemaModelComponent
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
-        parent_datatype = context["parent_record"].definition
+        published_datatype = context["published_record"].definition
 
         json_schema = set_default(datatype, "json-schema-settings", {})
         json_schema.setdefault(
-            "alias", parent_datatype["json-schema-settings"]["alias"]
+            "alias", published_datatype["json-schema-settings"]["alias"]
         )
 
         json_schema.setdefault(
             "module",
-            parent_datatype["json-schema-settings"]["module"],
+            published_datatype["json-schema-settings"]["module"],
         )
         json_schema.setdefault(
             "name",
-            parent_datatype["json-schema-settings"]["name"],
+            published_datatype["json-schema-settings"]["name"],
         )
 
         json_schema.setdefault(
             "file",
-            parent_datatype["json-schema-settings"]["file"],
+            published_datatype["json-schema-settings"]["file"],
         )
 
         super().before_model_prepare(datatype, context=context, **kwargs)

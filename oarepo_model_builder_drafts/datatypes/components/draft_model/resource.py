@@ -14,12 +14,12 @@ class DraftResourceModelComponent(ResourceModelComponent):
         record_resource_config = set_default(datatype, "resource-config", {})
 
         if context["profile"] == "draft":
-            parent_record_datatype: DataType = context["parent_record"]
+            published_record_datatype: DataType = context["published_record"]
             record_resource.setdefault(
-                "class", parent_record_datatype.definition["resource"]["class"]
+                "class", published_record_datatype.definition["resource"]["class"]
             )
             record_resource_config.setdefault(
-                "class", parent_record_datatype.definition["resource-config"]["class"]
+                "class", published_record_datatype.definition["resource-config"]["class"]
             )
 
         if context["profile"] == "record":

@@ -9,11 +9,11 @@ class DraftDefaultsModelComponent(DefaultsModelComponent):
     dependency_remap = DefaultsModelComponent
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
-        parent = context["parent_record"]
-        set_default(datatype, "model-name", parent.definition["model-name"])
+        published = context["published_record"]
+        set_default(datatype, "model-name", published.definition["model-name"])
         module_container = set_default(datatype, "module", {})
         module_container.setdefault(
-            "prefix", f"{parent.definition['module']['prefix']}Draft"
+            "prefix", f"{published.definition['module']['prefix']}Draft"
         )
 
         super().before_model_prepare(datatype, context=context, **kwargs)

@@ -111,11 +111,11 @@ class DraftComponent(DataTypeComponent):
         self.is_draft_profile = context["profile"] == "draft"
         self.is_record_profile = context["profile"] == "record"
         if self.is_draft_profile:
-            parent_record_datatype: DataType = context["parent_record"]
-            datatype.parent_record = parent_record_datatype
+            published_record_datatype: DataType = context["published_record"]
+            datatype.published_record = published_record_datatype
 
             properties = set_default(datatype, "properties", {})
-            for property_key, property_value in parent_record_datatype.definition[
+            for property_key, property_value in published_record_datatype.definition[
                 "properties"
             ].items():  # this should
                 properties.setdefault(property_key, property_value)

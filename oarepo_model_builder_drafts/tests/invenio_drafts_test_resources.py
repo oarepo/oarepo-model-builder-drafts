@@ -11,9 +11,10 @@ class InvenioDraftsTestResourcesBuilder(InvenioBaseClassPythonBuilder):
 
     def finish(self, **extra_kwargs):
         tests = getattr(self.current_model, "section_tests")
+        add_fields = getattr(self.current_model, "section_draft_parent_record")
         super().finish(
             fixtures=tests.fixtures,
             test_constants=tests.constants,
-            parent_record=self.current_model.parent_record,
+            published_record=self.current_model.published_record,
             **extra_kwargs,
         )
