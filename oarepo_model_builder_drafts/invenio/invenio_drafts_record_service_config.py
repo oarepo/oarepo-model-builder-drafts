@@ -7,4 +7,6 @@ class InvenioDraftsRecordServiceConfigBuilder(InvenioBaseClassPythonBuilder):
     template = "drafts-record-service-config"
 
     def finish(self, **extra_kwargs):
-        super().finish(published_record=self.current_model.published_record, **extra_kwargs)
+        super().finish(
+            published_record=self.current_model.published_record, **extra_kwargs
+        )

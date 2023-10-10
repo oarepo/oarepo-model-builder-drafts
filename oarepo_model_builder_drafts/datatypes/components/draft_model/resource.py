@@ -19,7 +19,8 @@ class DraftResourceModelComponent(ResourceModelComponent):
                 "class", published_record_datatype.definition["resource"]["class"]
             )
             record_resource_config.setdefault(
-                "class", published_record_datatype.definition["resource-config"]["class"]
+                "class",
+                published_record_datatype.definition["resource-config"]["class"],
             )
 
         if context["profile"] == "record":

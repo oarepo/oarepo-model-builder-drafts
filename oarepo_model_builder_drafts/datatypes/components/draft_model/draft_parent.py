@@ -171,7 +171,9 @@ class DraftParentComponent(DataTypeComponent):
         else:
             draft_parent_record_state.setdefault(
                 "class",
-                published_record_datatype.definition["draft-parent-record-state"]["class"],
+                published_record_datatype.definition["draft-parent-record-state"][
+                    "class"
+                ],
             )
         draft_parent_record_state.setdefault(
             "base-classes", ["db.Model", "ParentRecordStateMixin"]

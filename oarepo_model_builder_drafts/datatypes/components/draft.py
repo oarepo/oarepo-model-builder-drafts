@@ -27,7 +27,9 @@ class DraftComponent(DataTypeComponent):
 
     def process_links(self, datatype, section: Section, **kwargs):
         url_prefix = url_prefix2link(datatype.definition["resource-config"]["base-url"])
-        html_url_prefix = url_prefix2link(datatype.definition["resource-config"]["base-html-url"])
+        html_url_prefix = url_prefix2link(
+            datatype.definition["resource-config"]["base-html-url"]
+        )
         # add files link item
         if self.is_record_profile:
             if "links_search" in section.config:
