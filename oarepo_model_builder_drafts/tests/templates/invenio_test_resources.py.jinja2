@@ -1,7 +1,7 @@
 import copy
 
 {{ vars.record.class|generate_import }}
-{{ parent_record.record.class|generate_import }}
+{{ published_record.record.class|generate_import }}
 {{ vars.resource_config.class|generate_import }}
 
 #todo move to conftest
@@ -191,7 +191,7 @@ def test_list_drafts(client_with_credentials, input_data, vocab_cf, search_clear
     recid = create_draft_response.json["id"]
 
     {{ vars.record.class|base_name }}.index.refresh()
-    {{ parent_record.record.class|base_name }}.index.refresh()
+    {{ published_record.record.class|base_name }}.index.refresh()
     assert len(client_with_credentials.get({{ vars.resource_config.class|base_name }}.url_prefix).json["hits"]["hits"]) == 0
     assert len(client_with_credentials.get(f"user{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}").json["hits"]["hits"]) == 1
 
@@ -201,7 +201,7 @@ def test_list_drafts(client_with_credentials, input_data, vocab_cf, search_clear
     assert response_publish.status_code == 202
 
     {{ vars.record.class|base_name }}.index.refresh()
-    {{ parent_record.record.class|base_name }}.index.refresh()
+    {{ published_record.record.class|base_name }}.index.refresh()
     assert len(client_with_credentials.get({{ vars.resource_config.class|base_name }}.url_prefix).json["hits"]["hits"]) == 1
     assert len(client_with_credentials.get(f"user{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}").json["hits"]["hits"]) == 0
 

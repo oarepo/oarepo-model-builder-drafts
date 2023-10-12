@@ -14,6 +14,6 @@ class InvenioDraftsTestServicesBuilder(InvenioBaseClassPythonBuilder):
         super().finish(
             fixtures=tests.fixtures,
             test_constants=tests.constants,
-            parent_record=self.current_model.parent_record,
+            published_record=self.current_model.published_record,
             **extra_kwargs,
         )

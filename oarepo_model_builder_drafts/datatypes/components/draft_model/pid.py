@@ -8,7 +8,7 @@ class DraftPIDModelComponent(PIDModelComponent):
     dependency_remap = PIDModelComponent
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
-        if context["profile"] not in {"record", "draft"}:
+        if datatype.root.profile not in {"record", "draft"}:
             return
 
         pid = set_default(datatype, "pid", {})
@@ -27,12 +27,12 @@ class DraftPIDModelComponent(PIDModelComponent):
                 },
             ],
         )
-        if context["profile"] == "draft":
-            parent = context["parent_record"]
+        if datatype.root.profile == "draft":
+            published = context["published_record"]
             pid = set_default(datatype, "pid", {})
             pid.setdefault(
                 "provider-class",
-                parent.definition["pid"]["provider-class"],
+                published.definition["pid"]["provider-class"],
             )
             pid.setdefault("field-args", ["create=True", "delete=False"])
 

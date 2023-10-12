@@ -27,9 +27,11 @@ class DraftComponent(DataTypeComponent):
 
     def process_links(self, datatype, section: Section, **kwargs):
         url_prefix = url_prefix2link(datatype.definition["resource-config"]["base-url"])
-        html_url_prefix = url_prefix2link(datatype.definition["resource-config"]["base-html-url"])
+        html_url_prefix = url_prefix2link(
+            datatype.definition["resource-config"]["base-html-url"]
+        )
         # add files link item
-        if self.is_record_profile:
+        if datatype.root.profile == "record":
             if "links_search" in section.config:
                 section.config.pop("links_search")
             for link in section.config["links_item"]:
@@ -108,14 +110,12 @@ class DraftComponent(DataTypeComponent):
             ]
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
-        self.is_draft_profile = context["profile"] == "draft"
-        self.is_record_profile = context["profile"] == "record"
-        if self.is_draft_profile:
-            parent_record_datatype: DataType = context["parent_record"]
-            datatype.parent_record = parent_record_datatype
+        if datatype.root.profile == "draft":
+            published_record_datatype: DataType = context["published_record"]
+            datatype.published_record = published_record_datatype
 
             properties = set_default(datatype, "properties", {})
-            for property_key, property_value in parent_record_datatype.definition[
+            for property_key, property_value in published_record_datatype.definition[
                 "properties"
             ].items():  # this should
                 properties.setdefault(property_key, property_value)

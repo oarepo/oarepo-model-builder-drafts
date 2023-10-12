@@ -15,8 +15,8 @@ class DraftRecordMetadataModelComponent(RecordMetadataModelComponent):
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
         draft_metadata = set_default(datatype, "record-metadata", {})
-        if context["profile"] in {"record", "draft"}:
-            if context["profile"] == "draft":
+        if datatype.root.profile in {"record", "draft"}:
+            if datatype.root.profile == "draft":
                 draft_metadata.setdefault(
                     "base-classes",
                     ["db.Model", "DraftMetadataBase", "ParentRecordMixin"],
@@ -50,3 +50,6 @@ class DraftRecordMetadataModelComponent(RecordMetadataModelComponent):
                 "imports",
                 {"import": "invenio_drafts_resources.records.ParentRecordMixin"},
             )
+
+        else:
+            super().before_model_prepare(datatype, context=context, **kwargs)

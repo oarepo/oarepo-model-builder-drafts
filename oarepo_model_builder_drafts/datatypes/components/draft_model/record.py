@@ -8,11 +8,11 @@ class DraftRecordModelComponent(RecordModelComponent):
     dependency_remap = RecordModelComponent
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
-        if context["profile"] not in {"record", "draft"}:
+        if datatype.root.profile not in {"record", "draft"}:
             return
         record = set_default(datatype, "record", {})
 
-        if context["profile"] == "draft":
+        if datatype.root.profile == "draft":
             record.setdefault("base-classes", ["InvenioDraft"])
             record.setdefault(
                 "imports",
@@ -28,7 +28,7 @@ class DraftRecordModelComponent(RecordModelComponent):
             if not is_record_preset and record["class"][-6:] == "Record":
                 record["class"] = record["class"][:-6]
 
-        if context["profile"] == "record":
+        if datatype.root.profile == "record":
             record.setdefault(
                 "imports",
                 [

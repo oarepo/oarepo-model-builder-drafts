@@ -8,21 +8,22 @@ class DraftResourceModelComponent(ResourceModelComponent):
     dependency_remap = ResourceModelComponent
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
-        if context["profile"] not in {"record", "draft"}:
+        if datatype.root.profile not in {"record", "draft"}:
             return
         record_resource = set_default(datatype, "resource", {})
         record_resource_config = set_default(datatype, "resource-config", {})
 
-        if context["profile"] == "draft":
-            parent_record_datatype: DataType = context["parent_record"]
+        if datatype.root.profile == "draft":
+            published_record_datatype: DataType = context["published_record"]
             record_resource.setdefault(
-                "class", parent_record_datatype.definition["resource"]["class"]
+                "class", published_record_datatype.definition["resource"]["class"]
             )
             record_resource_config.setdefault(
-                "class", parent_record_datatype.definition["resource-config"]["class"]
+                "class",
+                published_record_datatype.definition["resource-config"]["class"],
             )
 
-        if context["profile"] == "record":
+        if datatype.root.profile == "record":
             record_resource.setdefault(
                 "imports",
                 [{"import": "invenio_drafts_resources.resources.RecordResource"}],

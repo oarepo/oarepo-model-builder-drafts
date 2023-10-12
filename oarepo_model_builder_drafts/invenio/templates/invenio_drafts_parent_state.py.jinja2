@@ -6,6 +6,6 @@ class {{ vars.draft_parent_record_state|class_header }}:
     table_name = "{{ vars.draft_parent_record_state.table }}"
 
     __parent_record_model__ = {{ vars.draft_parent_record_metadata.class|base_name }}
-    __record_model__ = {{ parent_record.record_metadata.class|base_name }}
+    __record_model__ = {{ published_record.record_metadata.class|base_name }}
     __draft_model__ = {{ vars.record_metadata.class|base_name  }}
 {% endif %}

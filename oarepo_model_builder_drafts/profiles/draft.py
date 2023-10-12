@@ -19,7 +19,7 @@ class DraftProfile(RecordProfile):
         builder: ModelBuilder,
         **kwargs,
     ):
-        parent_record = model.get_schema_section("record", model_path[:-1])
+        published_record = model.get_schema_section("record", model_path[:-1])
         if not dict_get(model.schema, model_path):
             return
         draft_profile = dict_get(model.schema, model_path)
@@ -36,6 +36,6 @@ class DraftProfile(RecordProfile):
             context={
                 "profile": "draft",
                 "profile_module": "records",
-                "parent_record": parent_record,
+                "published_record": published_record,
             },
         )
