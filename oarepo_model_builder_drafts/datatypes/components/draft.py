@@ -31,7 +31,7 @@ class DraftComponent(DataTypeComponent):
             datatype.definition["resource-config"]["base-html-url"]
         )
         # add files link item
-        if self.is_record_profile:
+        if datatype.root.profile == "record":
             if "links_search" in section.config:
                 section.config.pop("links_search")
             for link in section.config["links_item"]:
@@ -110,9 +110,7 @@ class DraftComponent(DataTypeComponent):
             ]
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
-        self.is_draft_profile = context["profile"] == "draft"
-        self.is_record_profile = context["profile"] == "record"
-        if self.is_draft_profile:
+        if datatype.root.profile == "draft":
             published_record_datatype: DataType = context["published_record"]
             datatype.published_record = published_record_datatype
 

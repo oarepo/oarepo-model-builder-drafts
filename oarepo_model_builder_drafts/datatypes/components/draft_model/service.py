@@ -11,12 +11,12 @@ class DraftServiceModelComponent(ServiceModelComponent):
     dependency_remap = ServiceModelComponent
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
-        if context["profile"] not in {"record", "draft"}:
+        if datatype.root.profile not in {"record", "draft"}:
             return
         record_service = set_default(datatype, "service", {})
         record_service_config = set_default(datatype, "service-config", {})
 
-        if context["profile"] == "draft":
+        if datatype.root.profile == "draft":
             published_record_datatype: DataType = context["published_record"]
             record_service.setdefault(
                 "class", published_record_datatype.definition["service"]["class"]
@@ -29,7 +29,7 @@ class DraftServiceModelComponent(ServiceModelComponent):
                 published_record_datatype.definition["service-config"]["service-id"],
             )
 
-        if context["profile"] == "record":
+        if datatype.root.profile == "record":
             record_service.setdefault(
                 "imports",
                 [

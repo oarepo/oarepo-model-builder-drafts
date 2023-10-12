@@ -12,4 +12,5 @@ TEMPLATES = {
     "drafts-api-views-published": "templates/invenio_drafts_api_views_published.py.jinja2",
     "drafts-app-views-published": "templates/invenio_drafts_app_views_published.py.jinja2",
     "drafts-proxies": "templates/invenio_drafts_proxies.py.jinja2",
+    "drafts-record-communities-service-config": "templates/invenio_drafts_record_communities_service_config.py.jinja2",
 }

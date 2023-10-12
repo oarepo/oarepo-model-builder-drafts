@@ -17,6 +17,10 @@ record:
   draft: {}
   resource-config:
     base-html-url: /ui/
+
+profiles:
+  - record
+  - draft
 #files:
 #  use:
 #  - invenio_files
