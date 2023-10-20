@@ -12,5 +12,5 @@ class InvenioDraftsConftestBuilder(InvenioBaseClassPythonBuilder):
     def finish(self, **extra_kwargs):
         tests = getattr(self.current_model, "section_tests")
         super().finish(
-            fixtures=tests.fixtures, test_constants=tests.constants, **extra_kwargs
+            fixtures=tests.fixtures, test_constants=tests.constants, published_record=self.current_model.published_record, **extra_kwargs
         )
