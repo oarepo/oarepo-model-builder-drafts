@@ -50,6 +50,3 @@ class DraftRecordMetadataModelComponent(RecordMetadataModelComponent):
                 "imports",
                 {"import": "invenio_drafts_resources.records.ParentRecordMixin"},
             )
-
-        else:
-            super().before_model_prepare(datatype, context=context, **kwargs)
