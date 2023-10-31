@@ -30,8 +30,7 @@ python3 -m venv $VENV
 pip install -U setuptools pip wheel
 
 pip install "oarepo>=$OAREPO_VERSION,<$OAREPO_VERSION_MAX"
-pip install -U "SQLAlchemy==1.4.49"
-pip install -U "SQLAlchemy-Continuum==1.3.15"
+
 pip install "./build-tests/$MODEL[tests]"
 pytest build-tests/$MODEL/tests
 
