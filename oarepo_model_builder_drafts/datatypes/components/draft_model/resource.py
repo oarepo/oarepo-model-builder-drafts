@@ -22,7 +22,7 @@ class DraftResourceModelComponent(ResourceModelComponent):
                 "class",
                 published_record_datatype.definition["resource-config"]["class"],
             )
-
+        #todo ?
         if datatype.root.profile == "record":
             record_resource.setdefault(
                 "imports",

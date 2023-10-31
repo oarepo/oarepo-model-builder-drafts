@@ -1,5 +1,5 @@
 {% if not vars.draft_parent_record_metadata.skip %}
-{{ vars.draft_parent_record_metadata.imports|generate_import }}
+{{ vars.draft_parent_record_metadata| imports }}
 
 
 class {{ vars.draft_parent_record_metadata|class_header }}:

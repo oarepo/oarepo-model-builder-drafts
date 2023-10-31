@@ -1,5 +1,5 @@
 {% if not vars.draft_parent_record.skip %}
-{{ vars.draft_parent_record_state|generate_import }}
+{{ vars.draft_parent_record_state|imports }}
 
 class {{ record|class_header }}:
     {% if not vars.draft_parent_record_state.skip %}

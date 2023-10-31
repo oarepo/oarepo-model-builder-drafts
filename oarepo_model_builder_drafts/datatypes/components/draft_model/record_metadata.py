@@ -19,18 +19,19 @@ class DraftRecordMetadataModelComponent(RecordMetadataModelComponent):
             if datatype.root.profile == "draft":
                 draft_metadata.setdefault(
                     "base-classes",
-                    ["db.Model", "DraftMetadataBase", "ParentRecordMixin"],
+                    #todo - db.Model
+                    ["invenio_db.db{db.Model}","invenio_drafts_resources.records.DraftMetadataBase", "invenio_drafts_resources.records.ParentRecordMixin"],
                 )
                 draft_metadata.setdefault(
                     "imports",
                     [
-                        {
-                            "import": "invenio_drafts_resources.records.DraftMetadataBase"
-                        },
-                        {"import": "invenio_db.db"},
-                        {
-                            "import": "invenio_drafts_resources.records.ParentRecordMixin"
-                        },
+                        # {
+                        #     "import": "invenio_drafts_resources.records.DraftMetadataBase"
+                        # },
+                        # {"import": "invenio_db.db"},
+                        # {
+                        #     "import": "invenio_drafts_resources.records.ParentRecordMixin"
+                        # },
                     ],
                 )
                 draft_metadata.setdefault("use-versioning", False)
@@ -42,11 +43,11 @@ class DraftRecordMetadataModelComponent(RecordMetadataModelComponent):
                 "record-metadata",
                 "base-classes",
                 "RecordMetadataBase",
-                "ParentRecordMixin",
+                "invenio_drafts_resources.records.ParentRecordMixin",
             )
-            append_array(
-                datatype,
-                "record-metadata",
-                "imports",
-                {"import": "invenio_drafts_resources.records.ParentRecordMixin"},
-            )
+            # append_array(
+            #     datatype,
+            #     "record-metadata",
+            #     "imports",
+            #     {"import": "invenio_drafts_resources.records.ParentRecordMixin"},
+            # )

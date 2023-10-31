@@ -33,26 +33,26 @@ class DraftServiceModelComponent(ServiceModelComponent):
             record_service.setdefault(
                 "imports",
                 [
-                    {
-                        "import": "invenio_drafts_resources.services.RecordService",
-                        "alias": "InvenioRecordService",
-                    }
+                    # {
+                    #     "import": "invenio_drafts_resources.services.RecordService",
+                    #     "alias": "InvenioRecordService",
+                    # }
                 ],
             )
 
             record_service_config.setdefault(
                 "base-classes",
-                ["PermissionsPresetsConfigMixin", "InvenioRecordDraftsServiceConfig"],
+                ["oarepo_runtime.config.service.PermissionsPresetsConfigMixin", "invenio_drafts_resources.services.RecordServiceConfig{InvenioRecordDraftsServiceConfig}"],
             )
 
-            append_array(
-                datatype,
-                "service-config",
-                "imports",
-                {
-                    "import": "invenio_drafts_resources.services.RecordServiceConfig",
-                    "alias": "InvenioRecordDraftsServiceConfig",
-                },
-            )
+            # append_array(
+            #     datatype,
+            #     "service-config",
+            #     "imports",
+            #     {
+            #         "import": "invenio_drafts_resources.services.RecordServiceConfig",
+            #         "alias": "InvenioRecordDraftsServiceConfig",
+            #     },
+            # )
 
         super().before_model_prepare(datatype, context=context, **kwargs)
