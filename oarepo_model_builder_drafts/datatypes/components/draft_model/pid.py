@@ -12,7 +12,10 @@ class DraftPIDModelComponent(PIDModelComponent):
             return
 
         pid = set_default(datatype, "pid", {})
-        pid.setdefault("provider-base-classes", ["invenio_drafts_resources.records.api.DraftRecordIdProviderV2"])
+        pid.setdefault(
+            "provider-base-classes",
+            ["invenio_drafts_resources.records.api.DraftRecordIdProviderV2"],
+        )
         pid.setdefault(
             "imports",
             [

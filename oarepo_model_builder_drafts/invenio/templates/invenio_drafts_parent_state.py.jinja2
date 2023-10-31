@@ -1,6 +1,9 @@
 {% if not vars.draft_parent_record_state.skip %}
 {{ vars.draft_parent_record_state|imports }}
+{{ vars.draft_parent_record_state.class|generate_import }}
 {{ vars.record_metadata.class|generate_import }}
+
+
 
 class {{ vars.draft_parent_record_state|class_header }}:
     table_name = "{{ vars.draft_parent_record_state.table }}"

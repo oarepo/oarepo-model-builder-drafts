@@ -13,30 +13,21 @@ class DraftRecordModelComponent(RecordModelComponent):
         record = set_default(datatype, "record", {})
 
         if datatype.root.profile == "draft":
-            record.setdefault("base-classes", ["invenio_drafts_resources.records.api.Draft{InvenioDraft}"])
+            record.setdefault(
+                "base-classes",
+                ["invenio_drafts_resources.records.api.Draft{InvenioDraft}"],
+            )
             record.setdefault(
                 "imports",
-                [
-                    # {
-                    #     "import": "invenio_drafts_resources.records.api.Draft",
-                    #     "alias": "InvenioDraft",
-                    # }
-                ],
+                [],
             )
             is_record_preset = record.get("class", None)
             super().before_model_prepare(datatype, context=context, **kwargs)
             if not is_record_preset and record["class"][-6:] == "Record":
                 record["class"] = record["class"][:-6]
-
         if datatype.root.profile == "record":
-            #todo ?
             record.setdefault(
-                "imports",
-                [
-                    {
-                        "import": "invenio_drafts_resources.records.api.Record",
-                        "alias": "InvenioRecord",
-                    }
-                ],
+                "base-classes",
+                ["invenio_drafts_resources.records.api.Record{InvenioRecord}"],
             )
             super().before_model_prepare(datatype, context=context, **kwargs)
