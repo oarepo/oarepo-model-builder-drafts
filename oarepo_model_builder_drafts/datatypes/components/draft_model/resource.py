@@ -25,12 +25,12 @@ class DraftResourceModelComponent(ResourceModelComponent):
 
         if datatype.root.profile == "record":
             record_resource.setdefault(
-                "imports",
-                [{"import": "invenio_drafts_resources.resources.RecordResource"}],
+                "base-classes",
+                ["invenio_drafts_resources.resources.RecordResource"],
             )
             record_resource_config.setdefault(
-                "imports",
-                [{"import": "invenio_drafts_resources.resources.RecordResourceConfig"}],
+                "base-classes",
+                ["invenio_drafts_resources.resources.RecordResourceConfig"],
             )
 
         super().before_model_prepare(datatype, context=context, **kwargs)

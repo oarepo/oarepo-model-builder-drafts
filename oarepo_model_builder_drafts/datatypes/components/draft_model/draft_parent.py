@@ -156,10 +156,10 @@ class DraftParentComponent(DataTypeComponent):
                 "class",
                 published_record_datatype.definition["draft-parent-record"]["class"],
             )
-        draft_parent_record.setdefault("base-classes", ["ParentRecord"])
         draft_parent_record.setdefault(
-            "imports", [{"import": "invenio_drafts_resources.records.api.ParentRecord"}]
+            "base-classes", ["invenio_drafts_resources.records.api.ParentRecord"]
         )
+        draft_parent_record.setdefault("imports", [])
         draft_parent_record.setdefault("module", record_module)
         draft_parent_record.setdefault("generate", True)
 
@@ -178,14 +178,15 @@ class DraftParentComponent(DataTypeComponent):
                 ],
             )
         draft_parent_record_state.setdefault(
-            "base-classes", ["db.Model", "ParentRecordStateMixin"]
+            "base-classes",
+            [
+                "invenio_db.db{db.Model}",
+                "invenio_drafts_resources.records.ParentRecordStateMixin",
+            ],
         )
         draft_parent_record_state.setdefault(
             "imports",
-            [
-                {"import": "invenio_drafts_resources.records.ParentRecordStateMixin"},
-                {"import": "invenio_db.db"},
-            ],
+            [],
         )
         draft_parent_record_state.setdefault("module", metadata_module)
         draft_parent_record_state.setdefault("generate", True)
@@ -209,14 +210,12 @@ class DraftParentComponent(DataTypeComponent):
                 ],
             )
         draft_parent_record_metadata.setdefault(
-            "base-classes", ["db.Model", "RecordMetadataBase"]
+            "base-classes",
+            ["invenio_db.db{db.Model}", "invenio_records.models.RecordMetadataBase"],
         )
         draft_parent_record_metadata.setdefault(
             "imports",
-            [
-                {"import": "invenio_records.models.RecordMetadataBase"},
-                {"import": "invenio_db.db"},
-            ],
+            [],
         )
         draft_parent_record_metadata.setdefault(
             "table",

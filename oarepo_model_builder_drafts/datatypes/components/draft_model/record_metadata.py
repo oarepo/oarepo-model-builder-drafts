@@ -3,7 +3,6 @@ from oarepo_model_builder.datatypes.components.model.record_metadata import (
     RecordMetadataModelComponent,
 )
 from oarepo_model_builder.datatypes.components.model.utils import (
-    append_array,
     place_after,
     set_default,
 )
@@ -19,19 +18,15 @@ class DraftRecordMetadataModelComponent(RecordMetadataModelComponent):
             if datatype.root.profile == "draft":
                 draft_metadata.setdefault(
                     "base-classes",
-                    ["db.Model", "DraftMetadataBase", "ParentRecordMixin"],
+                    [
+                        "invenio_db.db{db.Model}",
+                        "invenio_drafts_resources.records.DraftMetadataBase",
+                        "invenio_drafts_resources.records.ParentRecordMixin",
+                    ],
                 )
                 draft_metadata.setdefault(
                     "imports",
-                    [
-                        {
-                            "import": "invenio_drafts_resources.records.DraftMetadataBase"
-                        },
-                        {"import": "invenio_db.db"},
-                        {
-                            "import": "invenio_drafts_resources.records.ParentRecordMixin"
-                        },
-                    ],
+                    [],
                 )
                 draft_metadata.setdefault("use-versioning", False)
 
@@ -41,12 +36,6 @@ class DraftRecordMetadataModelComponent(RecordMetadataModelComponent):
                 datatype,
                 "record-metadata",
                 "base-classes",
-                "RecordMetadataBase",
-                "ParentRecordMixin",
-            )
-            append_array(
-                datatype,
-                "record-metadata",
-                "imports",
-                {"import": "invenio_drafts_resources.records.ParentRecordMixin"},
+                "invenio_records.models.RecordMetadataBase",
+                "invenio_drafts_resources.records.ParentRecordMixin",
             )

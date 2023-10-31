@@ -2,10 +2,7 @@ import marshmallow as ma
 from oarepo_model_builder.datatypes import DataTypeComponent
 from oarepo_model_builder.datatypes.components import ExtResourceModelComponent
 from oarepo_model_builder.datatypes.components.model import ServiceModelComponent
-from oarepo_model_builder.datatypes.components.model.utils import (
-    append_array,
-    set_default,
-)
+from oarepo_model_builder.datatypes.components.model.utils import set_default
 from oarepo_model_builder.datatypes.model import ModelDataType
 from oarepo_model_builder.utils.python_name import convert_config_to_qualified_name
 from oarepo_model_builder.validation.utils import ImportSchema
@@ -137,23 +134,26 @@ class PublishedServiceComponent(DataTypeComponent):
         )
         config.setdefault(
             "base-classes",
-            ["PublishedServiceConfig", "PermissionsPresetsConfigMixin"],
+            [
+                "oarepo_published_service.services.config.PublishedServiceConfig",
+                "oarepo_runtime.config.service.PermissionsPresetsConfigMixin",
+            ],
         )
-        append_array(
-            datatype,
-            "published-service-config",
-            "imports",
-            {
-                "import": "oarepo_published_service.services.config.PublishedServiceConfig",
-                "alias": "PublishedServiceConfig",
-            },
-        )
-        append_array(
-            datatype,
-            "published-service-config",
-            "imports",
-            {"import": "oarepo_runtime.config.service.PermissionsPresetsConfigMixin"},
-        )
+        # append_array(
+        #     datatype,
+        #     "published-service-config",
+        #     "imports",
+        #     {
+        #         "import": "oarepo_published_service.services.config.PublishedServiceConfig",
+        #         "alias": "PublishedServiceConfig",
+        #     },
+        # )
+        # append_array(
+        #     datatype,
+        #     "published-service-config",
+        #     "imports",
+        #     {"import": "oarepo_runtime.config.service.PermissionsPresetsConfigMixin"},
+        # )
         convert_config_to_qualified_name(config)
 
         service = set_default(datatype, "published-service", {})
@@ -169,14 +169,17 @@ class PublishedServiceComponent(DataTypeComponent):
         service_module = service.setdefault("module", f"{service_package}.service")
         service.setdefault("class", f"{service_module}.{record_prefix}PublishedService")
         service.setdefault("extra-code", "")
-        service.setdefault("base-classes", ["PublishedService"])
+        service.setdefault(
+            "base-classes",
+            ["oarepo_published_service.services.service.PublishedService"],
+        )
         service.setdefault(
             "imports",
             [
-                {
-                    "import": "oarepo_published_service.services.service.PublishedService",
-                    "alias": "PublishedService",
-                }
+                # {
+                #     "import": "oarepo_published_service.services.service.PublishedService",
+                #     "alias": "PublishedService",
+                # }
             ],
         )
         convert_config_to_qualified_name(service)
