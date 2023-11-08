@@ -18,6 +18,14 @@ def get_draft_schema():
     return DraftDataType.validator()
 
 
+def remove_links_by_names(links_section, link_names_to_remove):
+    links_to_remove = []
+    for link in links_section:
+        if link.name in link_names_to_remove:
+            links_to_remove.append(link)
+    for link in links_to_remove:
+        links_section.remove(link)
+
 class DraftComponent(DataTypeComponent):
     eligible_datatypes = [ModelDataType]
     affects = [DefaultsModelComponent]
@@ -30,14 +38,13 @@ class DraftComponent(DataTypeComponent):
         html_url_prefix = url_prefix2link(
             datatype.definition["resource-config"]["base-html-url"]
         )
-        # add files link item
+
+
         if datatype.root.profile == "record":
             if "links_search" in section.config:
                 section.config.pop("links_search")
-            for link in section.config["links_item"]:
-                if link.name == "self":
-                    section.config["links_item"].remove(link)
-                    break
+            remove_links_by_names(section.config["links_item"], {"self", "self_html"})
+
             section.config["links_item"] += [
                 Link(
                     name="self",
