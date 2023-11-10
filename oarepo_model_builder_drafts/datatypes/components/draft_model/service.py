@@ -40,7 +40,7 @@ class DraftServiceModelComponent(ServiceModelComponent):
             record_service_config.setdefault(
                 "base-classes",
                 [
-                    "oarepo_runtime.config.service.PermissionsPresetsConfigMixin",
+                    "oarepo_runtime.services.config.service.PermissionsPresetsConfigMixin",
                     "invenio_drafts_resources.services.RecordServiceConfig{InvenioRecordDraftsServiceConfig}",
                 ],
             )

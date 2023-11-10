@@ -136,7 +136,7 @@ class PublishedServiceComponent(DataTypeComponent):
             "base-classes",
             [
                 "oarepo_published_service.services.config.PublishedServiceConfig",
-                "oarepo_runtime.config.service.PermissionsPresetsConfigMixin",
+                "oarepo_runtime.services.config.service.PermissionsPresetsConfigMixin",
             ],
         )
         # append_array(
@@ -152,7 +152,7 @@ class PublishedServiceComponent(DataTypeComponent):
         #     datatype,
         #     "published-service-config",
         #     "imports",
-        #     {"import": "oarepo_runtime.config.service.PermissionsPresetsConfigMixin"},
+        #     {"import": "oarepo_runtime.services.config.service.PermissionsPresetsConfigMixin"},
         # )
         convert_config_to_qualified_name(config)
 
