@@ -26,6 +26,7 @@ def remove_links_by_names(links_section, link_names_to_remove):
     for link in links_to_remove:
         links_section.remove(link)
 
+
 class DraftComponent(DataTypeComponent):
     eligible_datatypes = [ModelDataType]
     affects = [DefaultsModelComponent]
@@ -38,7 +39,6 @@ class DraftComponent(DataTypeComponent):
         html_url_prefix = url_prefix2link(
             datatype.definition["resource-config"]["base-html-url"]
         )
-
 
         if datatype.root.profile == "record":
             if "links_search" in section.config:
