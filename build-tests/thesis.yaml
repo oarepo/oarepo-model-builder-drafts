@@ -16,7 +16,7 @@ record:
   - invenio
   draft:
     extra-code: |-2
-          sort_options = {{oarepo_runtime.services.search.ICUSortOptions}}("records2")
+          sort_options = {{oarepo_runtime.services.search.ICUSortOptions}}("thesis")
   resource-config:
     base-html-url: /ui/
 
