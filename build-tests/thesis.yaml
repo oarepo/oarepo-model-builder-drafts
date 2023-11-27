@@ -14,7 +14,9 @@ record:
 #  schema-server: 'local://'
   use:
   - invenio
-  draft: {}
+  draft:
+    extra-code: |-2
+          featured = {{oarepo_runtime.records.systemfields.featured_file.FeaturedFileField}}("restoration")
   resource-config:
     base-html-url: /ui/
 

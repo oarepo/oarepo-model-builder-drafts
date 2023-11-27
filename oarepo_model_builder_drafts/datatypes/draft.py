@@ -11,6 +11,18 @@ class DraftDataType(ModelDataType):
             required=False,
             validate=ma.validate.Equal("draft_record"),
         )
+        extra_code = ma.fields.String(
+            attribute="extra-code",
+            data_key="extra-code",
+            metadata={"doc": "Extra code to be copied below the permission class"},
+        )
+        generate = ma.fields.Boolean()
+        skip = ma.fields.Boolean()
+
+    def before_model_prepare(self, datatype, *, context, **kwargs):
+        draft = set_default(datatype, "draft", {})
+        draft.setdefault("generate", True)
+        draft.setdefault("extra-code", "")
 
     def prepare(self, context):
         self.published_record = context["published_record"]
