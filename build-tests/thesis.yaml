@@ -14,7 +14,9 @@ record:
 #  schema-server: 'local://'
   use:
   - invenio
-  draft: {}
+  draft:
+    extra-code: |-2
+          test_options = "test"
   resource-config:
     base-html-url: /ui/
 
