@@ -5,6 +5,8 @@ TEMPLATES = {
     "drafts-parent-extra-fields": "templates/invenio_drafts_parent_extra_fields.py.jinja2",
     "drafts-parent-metadata": "templates/invenio_drafts_parent_metadata.py.jinja2",  # adds draft parent metadata classes
     "drafts-record-service-config": "templates/invenio_drafts_record_service_config.py.jinja2",
+    "drafts-parent-marshmallow": "templates/invenio_drafts_parent_marshmallow.py.jinja2",
+    "drafts-parent-marshmallow-link": "templates/invenio_drafts_parent_marshmallow_link.py.jinja2",
     "drafts-published-record-service-config": "templates/invenio_drafts_published_record_service_config.py.jinja2",
     "drafts-published-record-service": "templates/invenio_drafts_published_record_service.py.jinja2",
     "drafts-parent-state": "templates/invenio_drafts_parent_state.py.jinja2",

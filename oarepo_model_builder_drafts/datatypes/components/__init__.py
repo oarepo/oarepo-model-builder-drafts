@@ -9,6 +9,7 @@ from .draft_model import (
     DraftRecordModelComponent,
     DraftResourceModelComponent,
     DraftServiceModelComponent,
+    ParentMarshmallowComponent,
     DraftsRecordDumperModelComponent,
 )
 from .draft_tests import DraftModelTestComponent
@@ -27,5 +28,6 @@ DRAFT_COMPONENTS = [
     DraftResourceModelComponent,
     DraftServiceModelComponent,
     PublishedServiceComponent,
+    ParentMarshmallowComponent,
     DraftsRecordDumperModelComponent,
 ]
