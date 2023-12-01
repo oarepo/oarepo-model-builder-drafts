@@ -51,10 +51,7 @@ class DraftMappingModelComponent(MappingModelComponent):
         if datatype.root.profile == "record" and "mapping" in datatype.definition:
             self.mapping_default = copy.deepcopy(datatype.definition["mapping"])
 
-        if datatype.root.profile == "draft" and hasattr(
-            self, "mapping_default"
-        ):
-
+        if datatype.root.profile == "draft" and hasattr(self, "mapping_default"):
             mapping = datatype.definition.get("mapping", {}) | self.mapping_default
             datatype.definition["mapping"] = mapping
 
