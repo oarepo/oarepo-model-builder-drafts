@@ -21,6 +21,8 @@ class DraftRecordModelComponent(RecordModelComponent):
                 "imports",
                 [],
             )
+            extra_code = datatype.model.get("extra-code", "")
+            record.setdefault("extra-code", extra_code)
             is_record_preset = record.get("class", None)
             super().before_model_prepare(datatype, context=context, **kwargs)
             if not is_record_preset and record["class"][-6:] == "Record":
