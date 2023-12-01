@@ -53,7 +53,8 @@ class DraftMappingModelComponent(MappingModelComponent):
 
         if datatype.root.profile == "draft" and hasattr(
             self, "mapping_default"
-        ):  # in case the draft profile is ran before record profile, it should be on parent record that is before before_model_prepare is called?
+        ):
+
             mapping = datatype.definition.get("mapping", {}) | self.mapping_default
             datatype.definition["mapping"] = mapping
 
