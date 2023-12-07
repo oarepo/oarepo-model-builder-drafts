@@ -4,10 +4,10 @@ from oarepo_model_builder.invenio.invenio_base import InvenioBaseClassPythonBuil
 from oarepo_model_builder.outputs.python import PythonOutput
 
 
-class InvenioDraftsParentExtraFieldsBuilder(InvenioBaseClassPythonBuilder):
-    TYPE = "invenio_drafts_parent_extra_fields"
+class InvenioDraftsParentAdditionalFieldsBuilder(InvenioBaseClassPythonBuilder):
+    TYPE = "invenio_drafts_parent_additional_fields"
     section = "draft-parent-record"
-    template = "drafts-parent-extra-fields"
+    template = "drafts-parent-additional-fields"
 
     def finish(self, **extra_kwargs):
         super().finish(**extra_kwargs)

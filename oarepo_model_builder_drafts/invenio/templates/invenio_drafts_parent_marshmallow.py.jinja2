@@ -1,3 +1,11 @@
 {{ vars.parent_record_marshmallow|generate_import }}
+{% if "additional-fields" in vars %}
+{{ vars.additional_fields|imports }}
+{% endif %}
 class {{ vars.parent_record_marshmallow|class_header }}:
    """"""
+   {% if "additional-fields" in vars %}
+   {% for field in vars.additional_fields.fields %}
+   {{ field }}
+   {% endfor %}
+   {% endif %}
