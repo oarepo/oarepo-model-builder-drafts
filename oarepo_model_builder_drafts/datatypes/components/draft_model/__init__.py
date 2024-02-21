@@ -20,5 +20,6 @@ __all__ = [
     "DraftResourceModelComponent",
     "DraftServiceModelComponent",
     "DraftParentComponent",
+    "DraftsRecordDumperModelComponent",
     "ParentMarshmallowComponent",
 ]
