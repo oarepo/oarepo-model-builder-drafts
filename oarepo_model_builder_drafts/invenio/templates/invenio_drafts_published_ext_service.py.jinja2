@@ -9,7 +9,6 @@ class {{ vars.ext|class_header }}:
         {{ published_service.class|generate_import }}
         return {{ published_service.class|base_name }}(
             config={{ published_service_config.class|base_name }}(
-                proxied_drafts_config=self.{{ ext.ext_service_name }}.config,
                 {% if published_service_config.additional_args %}
                     {{ published_service_config.additional_args|generate_list }}
                 {% endif %}
