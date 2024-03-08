@@ -86,6 +86,17 @@ class PublishedServiceConfigSchema(ma.Schema):
     imports = ma.fields.List(
         ma.fields.Nested(ImportSchema), metadata={"doc": "List of python imports"}
     )
+    additional_args = ma.fields.List(
+        ma.fields.String(),
+        attribute="additional-args",
+        data_key="additional-args",
+        metadata={
+            "doc": "List of additional arguments that will be passed to the published service constructor"
+        },
+    )
+    components = ma.fields.List(
+        ma.fields.String(), metadata={"doc": "List of published service components"}
+    )
     skip = ma.fields.Boolean()
 
 
@@ -104,6 +115,13 @@ class PublishedServiceComponent(DataTypeComponent):
             attribute="published-service-config",
             data_key="published-service-config",
         )
+
+    def process_published_service_config(self, datatype, section, **kwargs):
+        if datatype.root.profile == "record":
+            cfg = section.config
+            cfg.setdefault("additional-args", []).append(
+                f"proxied_drafts_config=self.{datatype.section_ext_resource.config['ext-service-name']}.config"
+            )
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
         profile_module = context["profile_module"]
@@ -139,6 +157,7 @@ class PublishedServiceComponent(DataTypeComponent):
                 "oarepo_runtime.services.config.service.PermissionsPresetsConfigMixin",
             ],
         )
+        config.setdefault("components", [])
         # append_array(
         #     datatype,
         #     "published-service-config",
