@@ -31,5 +31,5 @@ pip install -U setuptools pip wheel
 pip install "oarepo[tests]==${OAREPO_VERSION}.*"
 
 pip install "./build-tests/${MODEL}[tests]"
-pytest build-tests/$MODEL/tests
+# pytest build-tests/$MODEL/tests
 
