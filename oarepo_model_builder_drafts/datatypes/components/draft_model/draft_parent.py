@@ -133,6 +133,12 @@ class DraftParentComponent(DataTypeComponent):
             # metadata={"doc": "Service config settings"},
         )
 
+    def process_mb_invenio_drafts_parent_additional_fields(
+        self, datatype, section, **kwargs
+    ):
+        obj = section.config.setdefault("additional-fields", {})
+        obj |= {"owners": "{{oarepo_runtime.records.systemfields.owner.OwnersField}}()"}
+
     def before_model_prepare(self, datatype, *, context, **kwargs):
         record_module = datatype.definition["record"]["module"]
         metadata_module = datatype.definition["record-metadata"]["module"]
