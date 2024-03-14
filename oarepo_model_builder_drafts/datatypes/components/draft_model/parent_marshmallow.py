@@ -39,7 +39,7 @@ class ParentMarshmallowComponent(DataTypeComponent):
 
     def process_mb_invenio_drafts_parent_marshmallow(self, datatype, section, **kwargs):
         obj = section.config.setdefault("additional-fields", {})
-        obj |= {"owners": "ma_fields.List(ma_fields.Dict(), load_only=True)"}
+        obj |= {"owners": "ma.fields.List(ma.fields.Dict(), load_only=True)"}
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
         marshmallow = set_default(datatype, "parent-record-marshmallow", {})
