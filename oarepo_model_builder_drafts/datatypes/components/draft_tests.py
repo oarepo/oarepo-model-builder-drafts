@@ -47,5 +47,5 @@ class DraftModelTestComponent(DataTypeComponent):
             },
             "page_size": "25",
             "sort_search": "newest",
-            "sort_versions": "version"
+            "sort_versions": "version",
         }
