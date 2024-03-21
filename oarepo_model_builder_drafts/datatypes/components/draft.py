@@ -41,9 +41,30 @@ class DraftComponent(DataTypeComponent):
         )
 
         if datatype.root.profile == "record":
-            if "links_search" in section.config:
-                section.config.pop("links_search")
+
             remove_links_by_names(section.config["links_item"], {"self", "self_html"})
+
+            section.config["links_search_drafts"] = [
+                Link(
+                    name=None,
+                    link_class="pagination_links",
+                    link_args=[f'"{{+api}}/user{url_prefix}{{?args*}}"'],
+                    imports=[
+                        Import("invenio_records_resources.services.pagination_links")
+                    ],
+                ),
+            ]
+
+            section.config["links_search_versions"] = [
+                Link(
+                    name=None,
+                    link_class="pagination_links",
+                    link_args=[f'"{{+api}}{url_prefix}{{id}}/versions{{?args*}}"'],
+                    imports=[
+                        Import("invenio_records_resources.services.pagination_links")
+                    ],
+                ),
+            ]
 
             section.config["links_item"] += [
                 Link(

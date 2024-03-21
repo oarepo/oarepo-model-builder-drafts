@@ -203,7 +203,7 @@ def test_list_drafts(client_with_credentials, input_data, vocab_cf, search_clear
     {{ vars.record.class|base_name }}.index.refresh()
     {{ published_record.record.class|base_name }}.index.refresh()
     assert len(client_with_credentials.get({{ vars.resource_config.class|base_name }}.url_prefix).json["hits"]["hits"]) == 1
-    assert len(client_with_credentials.get(f"user{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}").json["hits"]["hits"]) == 0
+    assert len(client_with_credentials.get(f"user{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}").json["hits"]["hits"]) == 1 #we want this to list user records now, ie. both drafts and published
 
 
 def assert_expected_links_record(pid_value, links, base_urls, site_hostname="127.0.0.1:5000"):
@@ -224,3 +224,14 @@ def test_read_links_record(app, client_with_credentials, input_data, base_urls, 
 def test_draft_listing_links(app, client_with_credentials, base_urls, sample_draft):
     res = client_with_credentials.get(f"/user{base_urls['base_url']}")
     assert_expected_links(sample_draft["id"], res.json["hits"]["hits"][0]["links"], base_urls)
+
+
+def test_pagination_links(app, client_with_credentials, base_urls, sample_draft, sample_published_record, site_hostname="127.0.0.1:5000"):
+    res_search = client_with_credentials.get(f"/user{base_urls['base_url']}")
+    page_size = "{{ test_constants.page_size }}"
+    sort_search = "{{ test_constants.sort_search }}"
+    sort_versions = "{{ test_constants.sort_versions }}"
+    assert res_search.json["links"]["self"] == f"https://{site_hostname}/api/user{base_urls['base_url']}?page=1&size={page_size}&sort={sort_search}"
+    res_versions = client_with_credentials.get(f"{base_urls['base_url']}{sample_published_record['id']}/versions")
+    assert res_versions.json["links"]["self"] == f"https://{site_hostname}/api{base_urls['base_url']}{sample_published_record['id']}/versions?page=1&size={page_size}&sort={sort_versions}"
+
