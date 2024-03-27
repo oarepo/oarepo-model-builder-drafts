@@ -246,7 +246,7 @@ def test_pagination_links(
     site_hostname="127.0.0.1:5000",
 ):
 
-    page_size = "{{ test_constants.page_size }}"
+    page_size = {{ test_constants.page_size }}
     sort_search = "{{ test_constants.sort_search }}"
     sort_versions = "{{ test_constants.sort_versions }}"
 
