@@ -71,7 +71,7 @@ class DraftComponent(DataTypeComponent):
                     name="self",
                     link_class="ConditionalLink",
                     link_args=[
-                        "cond=is_record",
+                        "cond=is_published_record",
                         f'if_=RecordLink("{{+api}}{url_prefix}{{id}}")',
                         f'else_=RecordLink("{{+api}}{url_prefix}{{id}}/draft")',
                     ],
@@ -79,7 +79,7 @@ class DraftComponent(DataTypeComponent):
                         Import("invenio_records_resources.services.ConditionalLink"),
                         Import("invenio_records_resources.services.RecordLink"),
                         Import(
-                            "invenio_drafts_resources.services.records.config.is_record"
+                            "oarepo_runtime.records.is_published_record"
                         ),
                     ],
                 ),
@@ -87,7 +87,7 @@ class DraftComponent(DataTypeComponent):
                     name="self_html",
                     link_class="ConditionalLink",
                     link_args=[
-                        "cond=is_record",
+                        "cond=is_published_record",
                         f'if_=RecordLink("{{+ui}}{html_url_prefix}{{id}}")',
                         f'else_=RecordLink("{{+ui}}{html_url_prefix}{{id}}/edit")',
                     ],
@@ -95,7 +95,7 @@ class DraftComponent(DataTypeComponent):
                         Import("invenio_records_resources.services.ConditionalLink"),
                         Import("invenio_records_resources.services.RecordLink"),
                         Import(
-                            "invenio_drafts_resources.services.records.config.is_record"
+                            "oarepo_runtime.records.is_published_record"
                         ),
                     ],
                 ),
