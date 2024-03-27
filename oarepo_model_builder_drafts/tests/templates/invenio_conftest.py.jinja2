@@ -31,3 +31,10 @@ def published_record_factory(record_service):
 def sample_published_record(record_service, published_record_factory, input_data):
     """Create a draft and publish it."""
     return published_record_factory(input_data)
+
+@pytest.fixture
+def link_api2testclient():
+    def _link_api2testclient(api_link):
+        base_string = "https://127.0.0.1:5000/api/"
+        return api_link[len(base_string) - 1 :]
+    return _link_api2testclient
