@@ -221,10 +221,12 @@ def test_read_links_record(app, client_with_credentials, input_data, base_urls, 
 
     assert_expected_links_record(pid_value, res.json["links"], base_urls)
 
-def test_draft_listing_links(app, client_with_credentials, base_urls, sample_draft):
-    res = client_with_credentials.get(f"/user{base_urls['base_url']}")
-    assert_expected_links(sample_draft["id"], res.json["hits"]["hits"][0]["links"], base_urls)
-
+def test_draft_listing_links(app, client_with_login, base_urls, sample_draft_with_owner):
+    ThesisDraft.index.refresh()
+    res = client_with_login.get(f"/user{base_urls['base_url']}")
+    assert_expected_links(
+        sample_draft_with_owner["id"], res.json["hits"]["hits"][0]["links"], base_urls
+    )
 
 def test_pagination_links(app, client_with_credentials, base_urls, sample_draft, sample_published_record, site_hostname="127.0.0.1:5000"):
     res_search = client_with_credentials.get(f"/user{base_urls['base_url']}")

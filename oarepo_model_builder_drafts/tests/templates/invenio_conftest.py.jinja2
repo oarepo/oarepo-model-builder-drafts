@@ -31,3 +31,27 @@ def published_record_factory(record_service):
 def sample_published_record(record_service, published_record_factory, input_data):
     """Create a draft and publish it."""
     return published_record_factory(input_data)
+
+#--- quick fix
+from flask_principal import Identity, Need, UserNeed
+
+@pytest.fixture()
+def client_with_login(client, user):
+    """Log in a user to the client."""
+    login_user(user)
+    login_user_via_session(client, email=user.email)
+    return client
+
+@pytest.fixture(scope="module")
+def identity_simple():
+    """Simple identity fixture."""
+    i = Identity(1)
+    i.provides.add(UserNeed(1))
+    i.provides.add(Need(method="system_role", value="any_user"))
+    i.provides.add(Need(method="system_role", value="authenticated_user"))
+    return i
+
+@pytest.fixture(scope="function")
+def sample_draft_with_owner(record_service, input_data, identity_simple):
+    draft = record_service.create(identity_simple, input_data)
+    return draft._obj
