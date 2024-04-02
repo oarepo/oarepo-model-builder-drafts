@@ -8,7 +8,7 @@ if test -d $BUILDER_VENV ; then
 	rm -rf $BUILDER_VENV
 fi
 
-python3 -m venv $BUILDER_VENV
+python3.9 -m venv $BUILDER_VENV
 . $BUILDER_VENV/bin/activate
 pip install -U setuptools pip wheel
 pip install -e .
@@ -24,7 +24,7 @@ oarepo-compile-model ./build-tests/$MODEL.yaml --output-directory ./build-tests/
 if test -d $VENV ; then
 	rm -rf $VENV
 fi
-python3 -m venv $VENV
+python3.9 -m venv $VENV
 . $VENV/bin/activate
 pip install -U setuptools pip wheel
 

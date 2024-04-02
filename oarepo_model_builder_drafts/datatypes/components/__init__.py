@@ -11,6 +11,7 @@ from .draft_model import (
     DraftServiceModelComponent,
     DraftsRecordDumperModelComponent,
     ParentMarshmallowComponent,
+    SearchOptionsModelComponent,
 )
 from .draft_tests import DraftModelTestComponent
 from .published_service import PublishedServiceComponent
@@ -30,4 +31,5 @@ DRAFT_COMPONENTS = [
     PublishedServiceComponent,
     ParentMarshmallowComponent,
     DraftsRecordDumperModelComponent,
+    SearchOptionsModelComponent,
 ]

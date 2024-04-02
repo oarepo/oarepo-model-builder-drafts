@@ -8,6 +8,7 @@ from .record import DraftRecordModelComponent
 from .record_dumper import DraftsRecordDumperModelComponent
 from .record_metadata import DraftRecordMetadataModelComponent
 from .resource import DraftResourceModelComponent
+from .search_options import SearchOptionsModelComponent
 from .service import DraftServiceModelComponent
 
 __all__ = [
@@ -22,4 +23,5 @@ __all__ = [
     "DraftParentComponent",
     "DraftsRecordDumperModelComponent",
     "ParentMarshmallowComponent",
+    "SearchOptionsModelComponent",
 ]
