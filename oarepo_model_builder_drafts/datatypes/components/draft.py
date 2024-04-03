@@ -41,7 +41,6 @@ class DraftComponent(DataTypeComponent):
         )
 
         if datatype.root.profile == "record":
-
             remove_links_by_names(section.config["links_item"], {"self", "self_html"})
 
             section.config["links_search_drafts"] = [
@@ -78,9 +77,7 @@ class DraftComponent(DataTypeComponent):
                     imports=[
                         Import("invenio_records_resources.services.ConditionalLink"),
                         Import("invenio_records_resources.services.RecordLink"),
-                        Import(
-                            "oarepo_runtime.records.is_published_record"
-                        ),
+                        Import("oarepo_runtime.records.is_published_record"),
                     ],
                 ),
                 Link(
@@ -94,9 +91,7 @@ class DraftComponent(DataTypeComponent):
                     imports=[
                         Import("invenio_records_resources.services.ConditionalLink"),
                         Import("invenio_records_resources.services.RecordLink"),
-                        Import(
-                            "oarepo_runtime.records.is_published_record"
-                        ),
+                        Import("oarepo_runtime.records.is_published_record"),
                     ],
                 ),
                 Link(
