@@ -222,8 +222,6 @@ def test_read_links_record(app, client_with_credentials, input_data, base_urls, 
     assert_expected_links_record(pid_value, res.json["links"], base_urls)
 
 def test_draft_listing_links(app, vocab_cf, client_with_login, base_urls, sample_draft_with_owner):
-    import time
-    time.sleep(3)
     ThesisDraft.index.refresh()
     res = client_with_login.get(f"/user{base_urls['base_url']}")
     assert_expected_links(
@@ -231,8 +229,6 @@ def test_draft_listing_links(app, vocab_cf, client_with_login, base_urls, sample
     )
 
 def test_pagination_links(app, vocab_cf, client_with_credentials, base_urls, sample_draft, sample_published_record, site_hostname="127.0.0.1:5000"):
-    import time
-    time.sleep(3)
     res_search = client_with_credentials.get(f"/user{base_urls['base_url']}")
     page_size = "{{ test_constants.page_size }}"
     sort_search = "{{ test_constants.sort_search }}"
