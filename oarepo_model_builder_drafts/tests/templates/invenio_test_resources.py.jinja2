@@ -264,6 +264,9 @@ def test_pagination_links(
         page3_link = f"{base_url}?page=3&size={page_size}&sort={sort_search}"
 
         res_user_search = client_with_credentials.get(f"{link_api2testclient(base_url)}?size={page_size}")
+        print(res_user_search.status_code)
+        print(res_user_search.json)
+        print(res_user_search)
         assert (
             res_user_search.json["links"]["self"]
             == page1_link

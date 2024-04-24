@@ -45,7 +45,7 @@ class DraftModelTestComponent(DataTypeComponent):
                 "self_html": "https://{site_hostname}{base_urls['base_html_url']}{pid_value}",
                 "versions": "https://{site_hostname}/api{base_urls['base_url']}{pid_value}/versions",
             },
-            "page_size": "25",
+            "page_size": "10",
             "sort_search": "newest",
             "sort_versions": "version",
         }
