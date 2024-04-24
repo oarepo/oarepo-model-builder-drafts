@@ -1,5 +1,5 @@
 import marshmallow as ma
-from oarepo_model_builder.datatypes import DataType, DataTypeComponent, ModelDataType
+from oarepo_model_builder.datatypes import DataTypeComponent, ModelDataType
 from oarepo_model_builder.datatypes.components.model.utils import set_default
 from oarepo_model_builder.validation.utils import ImportSchema
 
