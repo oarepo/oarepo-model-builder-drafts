@@ -1,4 +1,3 @@
-
 from oarepo_model_builder.datatypes.components.facets import FacetDefinition
 from oarepo_model_builder.invenio.invenio_base import InvenioBaseClassPythonBuilder
 from oarepo_model_builder.invenio.invenio_record_search_options import facet_data

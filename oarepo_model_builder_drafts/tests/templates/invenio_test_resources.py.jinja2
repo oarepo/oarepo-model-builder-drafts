@@ -227,16 +227,6 @@ def test_draft_listing_links(app, vocab_cf, client_with_login, base_urls, sample
         sample_draft_with_owner["id"], res.json["hits"]["hits"][0]["links"], base_urls
     )
 
-def test_pagination_links(app, vocab_cf, client_with_credentials, base_urls, sample_draft, sample_published_record, search_clear, site_hostname="127.0.0.1:5000"):
-    res_search = client_with_credentials.get(f"/user{base_urls['base_url']}")
-    page_size = "{{ test_constants.page_size }}"
-    sort_search = "{{ test_constants.sort_search }}"
-    sort_versions = "{{ test_constants.sort_versions }}"
-    assert res_search.json["links"]["self"] == f"https://{site_hostname}/api/user{base_urls['base_url']}?page=1&size={page_size}&sort={sort_search}"
-    res_versions = client_with_credentials.get(f"{base_urls['base_url']}{sample_published_record['id']}/versions")
-    assert res_versions.json["links"]["self"] == f"https://{site_hostname}/api{base_urls['base_url']}{sample_published_record['id']}/versions?page=1&size={page_size}&sort={sort_versions}"
-
-
 def test_pagination_links(
     app,
     input_data,
@@ -244,6 +234,7 @@ def test_pagination_links(
     base_urls,
     sample_published_record,
     link_api2testclient,
+    search_clear,
     site_hostname="127.0.0.1:5000",
 ):
 
