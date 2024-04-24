@@ -227,12 +227,68 @@ def test_draft_listing_links(app, vocab_cf, client_with_login, base_urls, sample
         sample_draft_with_owner["id"], res.json["hits"]["hits"][0]["links"], base_urls
     )
 
-def test_pagination_links(app, vocab_cf, client_with_credentials, base_urls, sample_draft, sample_published_record, search_clear, site_hostname="127.0.0.1:5000"):
-    res_search = client_with_credentials.get(f"/user{base_urls['base_url']}")
-    page_size = "{{ test_constants.page_size }}"
+def test_pagination_links(
+    app,
+    input_data,
+    client_with_credentials,
+    base_urls,
+    sample_published_record,
+    link_api2testclient,
+    search_clear,
+    site_hostname="127.0.0.1:5000",
+):
+
+    page_size = {{ test_constants.page_size }}
     sort_search = "{{ test_constants.sort_search }}"
     sort_versions = "{{ test_constants.sort_versions }}"
-    assert res_search.json["links"]["self"] == f"https://{site_hostname}/api/user{base_urls['base_url']}?page=1&size={page_size}&sort={sort_search}"
-    res_versions = client_with_credentials.get(f"{base_urls['base_url']}{sample_published_record['id']}/versions")
-    assert res_versions.json["links"]["self"] == f"https://{site_hostname}/api{base_urls['base_url']}{sample_published_record['id']}/versions?page=1&size={page_size}&sort={sort_versions}"
 
+    current_id = sample_published_record['id']
+    for i in range(page_size*3+1):
+        _create_and_publish(client_with_credentials, input_data)
+        new_version = client_with_credentials.post(f"{base_urls['base_url']}{current_id}/versions")
+        publish = client_with_credentials.post(f"{base_urls['base_url']}{new_version.json['id']}/draft/actions/publish")
+        current_id = new_version.json['id']
+    ThesisRecord.index.refresh()
+    ThesisDraft.index.refresh()
+
+    # for some unknown weird reason search doesn't work for parent.id due to '-'; the same works for just id
+    # idk what's up with that, some obscure opensearch bug?
+    res_versions = client_with_credentials.get(
+        f"{base_urls['base_url']}{sample_published_record['id']}/versions?size={page_size}"
+    ).json
+    assert res_versions["links"]["self"] == f"https://{site_hostname}/api{base_urls['base_url']}{sample_published_record['id']}/versions?page=1&size={page_size}&sort={sort_versions}"
+
+    def link_test(base_url, page_size, sort_search):
+        page1_link = f"{base_url}?page=1&size={page_size}&sort={sort_search}"
+        page2_link = f"{base_url}?page=2&size={page_size}&sort={sort_search}"
+        page3_link = f"{base_url}?page=3&size={page_size}&sort={sort_search}"
+
+        res_user_search = client_with_credentials.get(f"{link_api2testclient(base_url)}?size={page_size}")
+        assert (
+            res_user_search.json["links"]["self"]
+            == page1_link
+        )
+        assert (
+            res_user_search.json["links"]["next"]
+            == page2_link
+        )
+        next_search = client_with_credentials.get(link_api2testclient(res_user_search.json["links"]["next"]))
+
+        assert (
+            next_search.json["links"]["next"]
+            == page3_link
+        )
+        assert (
+            next_search.json["links"]["self"]
+            == page2_link
+        )
+        assert (
+            next_search.json["links"]["prev"]
+            == page1_link
+        )
+
+    base_url_search = (f"https://{site_hostname}/api{base_urls['base_url']}")
+    base_url_user_search = (f"https://{site_hostname}/api/user{base_urls['base_url']}")
+
+    link_test(base_url_search, page_size, sort_search)
+    link_test(base_url_user_search, page_size, sort_search)

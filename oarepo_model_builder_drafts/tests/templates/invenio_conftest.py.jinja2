@@ -57,3 +57,9 @@ def identity_simple():
 def sample_draft_with_owner(record_service, input_data, identity_simple):
     draft = record_service.create(identity_simple, input_data)
     return draft._obj
+@pytest.fixture
+def link_api2testclient():
+    def _link_api2testclient(api_link):
+        base_string = "https://127.0.0.1:5000/api/"
+        return api_link[len(base_string) - 1 :]
+    return _link_api2testclient
