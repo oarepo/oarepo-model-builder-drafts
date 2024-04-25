@@ -86,12 +86,24 @@ class DraftComponent(DataTypeComponent):
                     link_args=[
                         "cond=is_published_record",
                         f'if_=RecordLink("{{+ui}}{html_url_prefix}{{id}}")',
-                        f'else_=RecordLink("{{+ui}}{html_url_prefix}{{id}}/edit")',
+                        f'else_=RecordLink("{{+ui}}{html_url_prefix}{{id}}/preview")',
                     ],
                     imports=[
                         Import("invenio_records_resources.services.ConditionalLink"),
                         Import("invenio_records_resources.services.RecordLink"),
                         Import("oarepo_runtime.records.is_published_record"),
+                    ],
+                ),
+                Link(
+                    name="edit_html",
+                    link_class="RecordLink",
+                    link_args=[
+                        f'"{{+ui}}{html_url_prefix}{{id}}/edit"',
+                        "when=has_draft",
+                    ],
+                    imports=[
+                        Import("invenio_records_resources.services.RecordLink"),
+                        Import("oarepo_runtime.records.has_draft"),
                     ],
                 ),
                 Link(

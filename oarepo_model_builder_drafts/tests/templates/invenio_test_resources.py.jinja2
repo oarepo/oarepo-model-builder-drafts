@@ -214,6 +214,15 @@ def assert_expected_links_record(pid_value, links, base_urls, site_hostname="127
     }
     assert expected_links.items() <= links.items()
 
+def has_expected_links_when_has_draft(pid_value, links, base_urls, site_hostname="127.0.0.1:5000"):
+    """Compare generated links to expected links."""
+    expected_links = {
+        {% for link_name, link in test_constants.links_when_draft.items() %}
+        "{{ link_name }}": f"{{ link }}",
+        {% endfor %}
+    }
+    return expected_links.items() <= links.items()
+
 def test_read_links_record(app, client_with_credentials, input_data, base_urls, sample_published_record, search_clear):
     pid_value = sample_published_record["id"]
     res = client_with_credentials.get(f"{base_urls['base_url']}{pid_value}")
@@ -293,3 +302,27 @@ def test_pagination_links(
 
     link_test(base_url_search, page_size, sort_search)
     link_test(base_url_user_search, page_size, sort_search)
+
+
+def test_when_draft_links(
+    app,
+    vocab_cf,
+    client_with_credentials,
+    input_data,
+    base_urls,
+    sample_draft,
+    sample_published_record,
+    search_clear,
+):
+    draft_id = sample_draft["id"]
+    published_record_id = sample_published_record["id"]
+    draft_resp = client_with_credentials.get(f"{base_urls['base_url']}{draft_id}/draft")
+    published_record_resp = client_with_credentials.get(f"{base_urls['base_url']}{published_record_id}")
+
+    new_draft = client_with_credentials.post(f"{base_urls['base_url']}{published_record_id}/draft")
+    published_record_with_draft_resp = client_with_credentials.get(f"{base_urls['base_url']}{published_record_id}")
+
+    assert has_expected_links_when_has_draft(draft_id, draft_resp.json["links"], base_urls)
+    assert not has_expected_links_when_has_draft(published_record_id, published_record_resp.json["links"], base_urls)
+    assert has_expected_links_when_has_draft(published_record_id, published_record_with_draft_resp.json["links"], base_urls)
+
