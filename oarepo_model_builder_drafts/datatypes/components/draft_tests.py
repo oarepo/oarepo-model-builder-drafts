@@ -32,7 +32,7 @@ class DraftModelTestComponent(DataTypeComponent):
                 "publish": "https://{site_hostname}/api{base_urls['base_url']}{pid_value}/draft/actions/publish",
                 "record": "https://{site_hostname}/api{base_urls['base_url']}{pid_value}",
                 "self": "https://{site_hostname}/api{base_urls['base_url']}{pid_value}/draft",
-                "self_html": "https://{site_hostname}{base_urls['base_html_url']}{pid_value}/edit",
+                "self_html": "https://{site_hostname}{base_urls['base_html_url']}{pid_value}/preview",
                 "versions": "https://{site_hostname}/api{base_urls['base_url']}{pid_value}/versions",
             },
             "links_record": {
@@ -44,6 +44,9 @@ class DraftModelTestComponent(DataTypeComponent):
                 "self": "https://{site_hostname}/api{base_urls['base_url']}{pid_value}",
                 "self_html": "https://{site_hostname}{base_urls['base_html_url']}{pid_value}",
                 "versions": "https://{site_hostname}/api{base_urls['base_url']}{pid_value}/versions",
+            },
+            "links_when_draft": {
+                "edit_html": "https://{site_hostname}{base_urls['base_html_url']}{pid_value}/edit",
             },
             "page_size": "10",
             "sort_search": "newest",
