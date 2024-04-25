@@ -214,7 +214,7 @@ def assert_expected_links_record(pid_value, links, base_urls, site_hostname="127
     }
     assert expected_links.items() <= links.items()
 
-def has_expected_links_when_draft(pid_value, links, base_urls, site_hostname="127.0.0.1:5000"):
+def has_expected_links_when_has_draft(pid_value, links, base_urls, site_hostname="127.0.0.1:5000"):
     """Compare generated links to expected links."""
     expected_links = {
         {% for link_name, link in test_constants.links_when_draft.items() %}
@@ -322,7 +322,7 @@ def test_when_draft_links(
     new_draft = client_with_credentials.post(f"{base_urls['base_url']}{published_record_id}/draft")
     published_record_with_draft_resp = client_with_credentials.get(f"{base_urls['base_url']}{published_record_id}")
 
-    assert has_expected_links_when_draft(draft_id, draft_resp.json["links"], base_urls)
-    assert not has_expected_links_when_draft(published_record_id, published_record_resp.json["links"], base_urls)
-    assert has_expected_links_when_draft(published_record_id, published_record_with_draft_resp.json["links"], base_urls)
+    assert has_expected_links_when_has_draft(draft_id, draft_resp.json["links"], base_urls)
+    assert not has_expected_links_when_has_draft(published_record_id, published_record_resp.json["links"], base_urls)
+    assert has_expected_links_when_has_draft(published_record_id, published_record_with_draft_resp.json["links"], base_urls)
 
