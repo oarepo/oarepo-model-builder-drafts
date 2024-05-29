@@ -19,6 +19,7 @@ class DraftSearchOptionsModelComponent(SearchOptionsModelComponent):
         record_draft_search_prefix = datatype.definition["module"]["prefix"]
 
         if datatype.root.profile == "draft":
+            # published and draft records share the same facets, that's why we use the same prefix
             record_draft_search_prefix = context["published_record"].definition[
                 "module"
             ]["prefix"]
