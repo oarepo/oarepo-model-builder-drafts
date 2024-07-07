@@ -73,7 +73,7 @@ class DraftParentRecordStateSchema(ma.Schema):
     skip = ma.fields.Boolean()
 
 
-class DraftParentRecordMetadataSchema:
+class DraftParentRecordMetadataSchema(ma.Schema):
     class Meta:
         unknown = ma.RAISE
 
@@ -100,7 +100,7 @@ class DraftParentRecordMetadataSchema:
     skip = ma.fields.Boolean()
 
 
-class DraftParentRecordJsonSchema:
+class DraftParentRecordJsonSchema(ma.Schema):
     name = ma.fields.Str(metadata={"doc": "Schema name"})
     module = ma.fields.Str(metadata={"doc": "Schema module"})
     file_ = ma.fields.Str(
