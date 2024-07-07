@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-OAREPO_VERSION=${OAREPO_VERSION:-11}
+OAREPO_VERSION=${OAREPO_VERSION:-12}
 
 BUILDER_VENV=".venv-builder"
 if test -d $BUILDER_VENV ; then

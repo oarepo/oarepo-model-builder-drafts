@@ -10,6 +10,8 @@ from oarepo_model_builder.datatypes.components.model.utils import set_default
 from oarepo_model_builder.utils.python_name import module_to_path, parent_module
 from oarepo_model_builder.validation.utils import ImportSchema
 
+# TODO: consider moving all "parent" related record fields to "parent" section and profile
+
 
 class DraftParentRecordSchema(ma.Schema):
     class Meta:
@@ -37,6 +39,11 @@ class DraftParentRecordSchema(ma.Schema):
     )
     skip = ma.fields.Boolean()
     generate = ma.fields.Boolean()
+    fields = ma.fields.Dict(
+        attribute="fields",
+        data_key="fields",
+        metadata={"doc": "Extra fields to add to the class"},
+    )
 
 
 class DraftParentRecordStateSchema(ma.Schema):
@@ -166,6 +173,7 @@ class DraftParentComponent(DataTypeComponent):
             "base-classes", ["invenio_drafts_resources.records.api.ParentRecord"]
         )
         draft_parent_record.setdefault("imports", [])
+        draft_parent_record.setdefault("fields", {})
         draft_parent_record.setdefault("module", record_module)
         draft_parent_record.setdefault("generate", True)
 
