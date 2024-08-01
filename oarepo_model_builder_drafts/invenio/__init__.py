@@ -18,4 +18,5 @@ TEMPLATES = {
     "drafts-record-communities-service-config": "templates/invenio_drafts_record_communities_service_config.py.jinja2",
     "drafts-record-search-options": "templates/invenio_drafts_record_search_options.py.jinja2",
     "drafts-record-facets": "templates/invenio_drafts_record_facets.py.jinja2",
+    "drafts-config": "templates/invenio_drafts_config.py.jinja2",
 }
