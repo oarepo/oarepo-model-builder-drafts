@@ -326,3 +326,17 @@ def test_when_draft_links(
     assert not has_expected_links_when_has_draft(published_record_id, published_record_resp.json["links"], base_urls)
     assert has_expected_links_when_has_draft(published_record_id, published_record_with_draft_resp.json["links"], base_urls)
 
+
+def test_version(client_with_credentials, input_data, search_clear):
+    """Test draft publication of a non-existing record.
+
+    It has to first create said draft.
+    """
+    input_data.setdefault("metadata", {}).setdefault("version", "1.0")
+    version = input_data["metadata"]["version"]
+
+    recid = _create_and_publish(client_with_credentials, input_data)
+    response = client_with_credentials.get(f"{ {{ vars.resource_config.class|base_name }}.url_prefix}{recid}")
+
+    assert response.json["metadata"]["version"] == version
+
