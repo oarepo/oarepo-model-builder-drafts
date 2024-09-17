@@ -20,6 +20,7 @@ if test -d ./build-tests/$MODEL; then
 	rm -rf ./build-tests/$MODEL
 fi
 
+editable_install /home/ron/prace/oarepo-model-builder-new
 oarepo-compile-model ./build-tests/$MODEL.yaml --output-directory ./build-tests/$MODEL -vvv
 if test -d $VENV ; then
 	rm -rf $VENV
