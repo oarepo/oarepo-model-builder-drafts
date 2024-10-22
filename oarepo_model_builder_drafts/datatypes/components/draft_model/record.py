@@ -15,7 +15,7 @@ class DraftRecordModelComponent(RecordModelComponent):
         if datatype.root.profile == "draft":
             record.setdefault(
                 "base-classes",
-                ["invenio_drafts_resources.records.api.Draft{InvenioDraft}"],
+                ["invenio_rdm_records.records.api.RDMDraft"],
             )
             record.setdefault(
                 "imports",
