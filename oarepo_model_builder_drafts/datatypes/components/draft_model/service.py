@@ -46,6 +46,4 @@ class DraftServiceModelComponent(ServiceModelComponent):
             )
 
         super().before_model_prepare(datatype, context=context, **kwargs)
-        record_service_config.setdefault("components", []).append(
-            "{{oarepo_runtime.services.components.OwnersComponent}}"
-        )
+
