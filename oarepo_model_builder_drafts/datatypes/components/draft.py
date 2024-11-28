@@ -73,7 +73,7 @@ class DraftComponent(DataTypeComponent):
                     name="self",
                     link_class="ConditionalLink",
                     link_args=[
-                        "cond=is_published_record",
+                        "cond=is_published_record()",
                         f'if_=RecordLink("{{+api}}{url_prefix}{{id}}"',
                         'when=has_permission("read"))',
                         f'else_=RecordLink("{{+api}}{url_prefix}{{id}}/draft"',
@@ -82,15 +82,15 @@ class DraftComponent(DataTypeComponent):
                     imports=[
                         Import("invenio_records_resources.services.ConditionalLink"),
                         Import("invenio_records_resources.services.RecordLink"),
-                        Import("oarepo_runtime.records.is_published_record"),
-                        Import("oarepo_runtime.records.has_permission"),
+                        Import("oarepo_runtime.services.config.is_published_record"),
+                        Import("oarepo_runtime.services.config.has_permission"),
                     ],
                 ),
                 Link(
                     name="self_html",
                     link_class="ConditionalLink",
                     link_args=[
-                        "cond=is_published_record",
+                        "cond=is_published_record()",
                         f'if_=RecordLink("{{+ui}}{html_url_prefix}{{id}}"',
                         'when=has_permission("read"))',
                         f'else_=RecordLink("{{+ui}}{html_url_prefix}{{id}}/preview"',
@@ -99,8 +99,8 @@ class DraftComponent(DataTypeComponent):
                     imports=[
                         Import("invenio_records_resources.services.ConditionalLink"),
                         Import("invenio_records_resources.services.RecordLink"),
-                        Import("oarepo_runtime.records.is_published_record"),
-                        Import("oarepo_runtime.records.has_permission"),
+                        Import("oarepo_runtime.services.config.is_published_record"),
+                        Import("oarepo_runtime.services.config.has_permission"),
                     ],
                 ),
                 Link(
@@ -108,13 +108,12 @@ class DraftComponent(DataTypeComponent):
                     link_class="RecordLink",
                     link_args=[
                         f'"{{+ui}}{html_url_prefix}{{id}}/edit"',
-                        'when=Condition(has_draft, has_permission("read_draft"))',
+                        'when=has_draft() & has_permission("read_draft")',
                     ],
                     imports=[
                         Import("invenio_records_resources.services.RecordLink"),
-                        Import("oarepo_runtime.records.has_draft"),
-                        Import("oarepo_runtime.records.has_permission"),
-                        Import("oarepo_runtime.records.Condition"),
+                        Import("oarepo_runtime.services.config.has_draft"),
+                        Import("oarepo_runtime.services.config.has_permission"),
                     ],
                 ),
                 Link(
@@ -126,7 +125,7 @@ class DraftComponent(DataTypeComponent):
                     ],
                     imports=[
                         Import("invenio_records_resources.services.RecordLink"),
-                        Import("oarepo_runtime.records.has_permission"),
+                        Import("oarepo_runtime.services.config.has_permission"),
                     ],
                 ),
                 Link(
@@ -138,7 +137,7 @@ class DraftComponent(DataTypeComponent):
                     ],
                     imports=[
                         Import("invenio_records_resources.services.RecordLink"),
-                        Import("oarepo_runtime.records.has_permission"),
+                        Import("oarepo_runtime.services.config.has_permission"),
                     ],
                 ),
                 Link(
@@ -146,12 +145,11 @@ class DraftComponent(DataTypeComponent):
                     link_class="RecordLink",
                     link_args=[
                         f'"{{+api}}{url_prefix}{{id}}/draft"',
-                        'when=Condition(has_draft, has_permission("read_draft"))',
+                        'when=has_draft() & has_permission("read_draft")',
                     ],
                     imports=[
                         Import("invenio_records_resources.services.RecordLink"),
-                        Import("oarepo_runtime.records.has_permission"),
-                        Import("oarepo_runtime.records.Condition"),
+                        Import("oarepo_runtime.services.config.has_permission"),
                     ],
                 ),
                 Link(
@@ -160,12 +158,12 @@ class DraftComponent(DataTypeComponent):
                     link_class="RecordLink",
                     link_args=[
                         f'"{{+api}}{url_prefix}{{id}}"',
-                        'when=Condition(has_published_record, has_permission("read"))',
+                        'when=has_published_record() & has_permission("read")',
                     ],
                     imports=[
                         Import("invenio_records_resources.services.RecordLink"),
-                        Import("oarepo_runtime.records.has_permission"),
-                        Import("oarepo_runtime.records.has_published_record"),
+                        Import("oarepo_runtime.services.config.has_permission"),
+                        Import("oarepo_runtime.services.config.has_published_record"),
                     ],
                 ),
                 Link(
@@ -177,7 +175,7 @@ class DraftComponent(DataTypeComponent):
                     ],
                     imports=[
                         Import("invenio_records_resources.services.RecordLink"),
-                        Import("oarepo_runtime.records.has_permission"),
+                        Import("oarepo_runtime.services.config.has_permission"),
                     ],
                 ),
                 Link(
@@ -189,7 +187,7 @@ class DraftComponent(DataTypeComponent):
                     ],
                     imports=[
                         Import("invenio_records_resources.services.RecordLink"),
-                        Import("oarepo_runtime.records.has_permission"),
+                        Import("oarepo_runtime.services.config.has_permission"),
                     ],
                 ),
             ]
@@ -199,7 +197,7 @@ class DraftComponent(DataTypeComponent):
                     name="self",
                     link_class="ConditionalLink",
                     link_args=[
-                        "cond=is_published_record",
+                        "cond=is_published_record()",
                         f'if_=RecordLink("{{+api}}{url_prefix}{{id}}"',
                         'when=has_permission("read"))',
                         f'else_=RecordLink("{{+api}}{url_prefix}{{id}}/draft"',
@@ -208,15 +206,15 @@ class DraftComponent(DataTypeComponent):
                     imports=[
                         Import("invenio_records_resources.services.ConditionalLink"),
                         Import("invenio_records_resources.services.RecordLink"),
-                        Import("oarepo_runtime.records.is_published_record"),
-                        Import("oarepo_runtime.records.has_permission"),
+                        Import("oarepo_runtime.services.config.is_published_record"),
+                        Import("oarepo_runtime.services.config.has_permission"),
                     ],
                 ),
                 Link(
                     name="self_html",
                     link_class="ConditionalLink",
                     link_args=[
-                        "cond=is_published_record",
+                        "cond=is_published_record()",
                         f'if_=RecordLink("{{+ui}}{html_url_prefix}{{id}}"',
                         'when=has_permission("read"))',
                         f'else_=RecordLink("{{+ui}}{html_url_prefix}{{id}}/preview"',
@@ -225,8 +223,8 @@ class DraftComponent(DataTypeComponent):
                     imports=[
                         Import("invenio_records_resources.services.ConditionalLink"),
                         Import("invenio_records_resources.services.RecordLink"),
-                        Import("oarepo_runtime.records.is_published_record"),
-                        Import("oarepo_runtime.records.has_permission"),
+                        Import("oarepo_runtime.services.config.is_published_record"),
+                        Import("oarepo_runtime.services.config.has_permission"),
                     ],
                 ),
             ]
