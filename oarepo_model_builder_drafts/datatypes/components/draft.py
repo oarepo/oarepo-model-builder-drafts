@@ -55,6 +55,14 @@ class DraftComponent(DataTypeComponent):
                         Import("invenio_records_resources.services.pagination_links")
                     ],
                 ),
+                Link(
+                    name=None,
+                    link_class="pagination_links_html",
+                    link_args=[f'"{{+ui}}/user{url_prefix}{{?args*}}"'],
+                    imports=[
+                        Import("oarepo_runtime.services.records.pagination_links_html")
+                    ],
+                ),
             ]
 
             section.config["links_search_versions"] = [
