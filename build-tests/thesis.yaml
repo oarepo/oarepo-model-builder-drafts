@@ -10,8 +10,6 @@ record:
     qualified: thesis
   permissions:
     presets: [ 'everyone' ]
-#  package: thesis
-#  schema-server: 'local://'
   use:
   - invenio
   draft:
@@ -26,13 +24,3 @@ record:
 profiles:
   - record
   - draft
-#files:
-#  use:
-#  - invenio_files
-#  properties:
-#    metadata:
-#      properties:
-#        title:
-#          type: fulltext
-#  package: thesis
-#  schema-server: 'local://'
