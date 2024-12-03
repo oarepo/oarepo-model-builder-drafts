@@ -144,7 +144,6 @@ class DraftParentComponent(DataTypeComponent):
         self, datatype, section, **kwargs
     ):
         obj = section.config.setdefault("additional-fields", {})
-        obj |= {"owners": "{{oarepo_runtime.records.systemfields.owner.OwnersField}}()"}
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
         record_module = datatype.definition["record"]["module"]
@@ -170,7 +169,7 @@ class DraftParentComponent(DataTypeComponent):
                 published_record_datatype.definition["draft-parent-record"]["class"],
             )
         draft_parent_record.setdefault(
-            "base-classes", ["invenio_drafts_resources.records.api.ParentRecord"]
+            "base-classes", ["invenio_rdm_records.records.api.RDMParent"]
         )
         draft_parent_record.setdefault("imports", [])
         draft_parent_record.setdefault("fields", {})
