@@ -1,4 +1,4 @@
-{% if "additional-fields" in vars %}
+{% if "additional-fields" in vars and vars.additional_fields | length > 0 %}
 {% for field in vars.additional_fields.values() %}
 {{ field|code_imports }}
 {% endfor %}
