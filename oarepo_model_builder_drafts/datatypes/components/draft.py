@@ -116,7 +116,7 @@ class DraftComponent(DataTypeComponent):
                     link_class="RecordLink",
                     link_args=[
                         f'"{{+ui}}{html_url_prefix}{{id}}/edit"',
-                        'when=has_draft() & has_permission("read_draft")',
+                        'when=has_draft() & has_permission("update")',
                     ],
                     imports=[
                         Import("invenio_records_resources.services.RecordLink"),
