@@ -2,6 +2,8 @@
 set -e
 
 OAREPO_VERSION=${OAREPO_VERSION:-12}
+export PIP_EXTRA_INDEX_URL=https://gitlab.cesnet.cz/api/v4/projects/1408/packages/pypi/simple
+export UV_EXTRA_INDEX_URL=https://gitlab.cesnet.cz/api/v4/projects/1408/packages/pypi/simple
 
 BUILDER_VENV=".venv-builder"
 if test -d $BUILDER_VENV ; then
@@ -28,7 +30,7 @@ python3 -m venv $VENV
 . $VENV/bin/activate
 pip install -U setuptools pip wheel
 
-pip install "oarepo[tests]==${OAREPO_VERSION}.*"
+pip install "oarepo[tests, rdm]==${OAREPO_VERSION}.*"
 
 pip install "./build-tests/${MODEL}[tests]"
 pytest build-tests/$MODEL/tests
