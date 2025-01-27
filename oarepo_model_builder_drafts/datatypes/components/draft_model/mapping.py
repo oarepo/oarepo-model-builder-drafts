@@ -56,4 +56,4 @@ class DraftMappingModelComponent(MappingModelComponent):
             datatype.definition["mapping"] = mapping
 
         super().before_model_prepare(datatype, context=context, **kwargs)
-        
+

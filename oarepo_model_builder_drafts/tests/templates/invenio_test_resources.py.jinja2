@@ -192,7 +192,7 @@ def test_list_drafts(client_with_credentials, input_data, vocab_cf, search_clear
 
     {{ vars.record.class|base_name }}.index.refresh()
     {{ published_record.record.class|base_name }}.index.refresh()
-    assert len(client_with_credentials.get({{ vars.resource_config.class|base_name }}.url_prefix).json["hits"]["hits"]) == 0
+    assert len(client_with_credentials.get({{ vars.resource_config.class|base_name }}.url_prefix, query_string={"record_status": "published"}).json["hits"]["hits"]) == 0
     assert len(client_with_credentials.get(f"user{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}").json["hits"]["hits"]) == 1
 
     response_publish = client_with_credentials.post(
@@ -202,7 +202,7 @@ def test_list_drafts(client_with_credentials, input_data, vocab_cf, search_clear
 
     {{ vars.record.class|base_name }}.index.refresh()
     {{ published_record.record.class|base_name }}.index.refresh()
-    assert len(client_with_credentials.get({{ vars.resource_config.class|base_name }}.url_prefix, query_string={"record_status": "published"}).json["hits"]["hits"]) == 1
+    assert len(client_with_credentials.get({{ vars.resource_config.class|base_name }}.url_prefix).json["hits"]["hits"]) == 1
     assert len(client_with_credentials.get(f"user{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}").json["hits"]["hits"]) == 1 #we want this to list user records now, ie. both drafts and published
 
 def assert_expected_links_record(pid_value, links, base_urls, site_hostname="127.0.0.1:5000"):
