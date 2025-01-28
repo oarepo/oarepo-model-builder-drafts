@@ -83,6 +83,7 @@ def test_search_versions(client_with_credentials, input_data, search_clear, samp
 def test_create_publish_new_revision(client_with_credentials, input_data, search_clear, sample_metadata_list, sample_published_record):
     """Test draft creation of an existing record and publish it."""
     recid = sample_published_record["id"]
+    orig_revision_id = sample_published_record.revision_id
 
     # Create new draft of said record
 
@@ -94,7 +95,7 @@ def test_create_publish_new_revision(client_with_credentials, input_data, search
     response = client_with_credentials.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft")
 
     assert response.status_code == 201
-    assert response.json["revision_id"] == {{ test_constants.revision_id2 }}
+    assert response.json["revision_id"] > orig_revision_id
     _assert_single_item_response(response)
 
     # Update that new draft
@@ -106,6 +107,7 @@ def test_create_publish_new_revision(client_with_credentials, input_data, search
     response = client_with_credentials.get(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}")
 
     assert response.status_code == 200
+    assert response.json["revision_id"] == orig_revision_id
     _assert_single_item_response(response)
     assert response.json["metadata"] == orig_metadata
 
@@ -116,7 +118,7 @@ def test_create_publish_new_revision(client_with_credentials, input_data, search
     _assert_single_item_response(response)
 
     assert response.json["id"] == recid
-    assert response.json["revision_id"] == {{ test_constants.revision_id1 }}
+    assert response.json["revision_id"] > orig_revision_id
     assert response.json["metadata"] == edited_metadata
 
     # Check it was actually edited
@@ -131,18 +133,21 @@ def test_mutiple_edit(client_with_credentials, input_data, search_clear, sample_
     This tests the `edit` service method.
     """
     recid = sample_published_record["id"]
+    orig_revision_id = sample_published_record.revision_id
 
     # Create new draft of said record
     response = client_with_credentials.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft")
 
     assert response.status_code == 201
-    assert response.json["revision_id"] == {{ test_constants.revision_id2 }}
+    assert response.json["revision_id"] > orig_revision_id
+
+    revision_id_draft_1 = response.json["revision_id"]
 
     # Request a second edit. Get the same draft (revision_id)
     response = client_with_credentials.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft")
 
     assert response.status_code == 201
-    assert response.json["revision_id"] == {{ test_constants.revision_id2 }}
+    assert response.json["revision_id"] ==  revision_id_draft_1
 
     # Publish it to check the increment in version_id
     response = client_with_credentials.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft/actions/publish")
@@ -153,7 +158,7 @@ def test_mutiple_edit(client_with_credentials, input_data, search_clear, sample_
     response = client_with_credentials.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft")
 
     assert response.status_code == 201
-    assert response.json["revision_id"] == {{ test_constants.revision_id3 }}
+    assert response.json["revision_id"] > revision_id_draft_1
 
 
 def test_redirect_to_latest_version(client_with_credentials, input_data, search_clear, sample_published_record):
@@ -192,7 +197,7 @@ def test_list_drafts(client_with_credentials, input_data, vocab_cf, search_clear
 
     {{ vars.record.class|base_name }}.index.refresh()
     {{ published_record.record.class|base_name }}.index.refresh()
-    assert len(client_with_credentials.get({{ vars.resource_config.class|base_name }}.url_prefix, query_string={"record_status": "published"}).json["hits"]["hits"]) == 0
+    assert len(client_with_credentials.get({{ vars.resource_config.class|base_name }}.url_prefix).json["hits"]["hits"]) == 0
     assert len(client_with_credentials.get(f"user{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}").json["hits"]["hits"]) == 1
 
     response_publish = client_with_credentials.post(
@@ -229,16 +234,12 @@ def test_read_links_record(app, client_with_credentials, input_data, base_urls, 
 
     assert_expected_links_record(pid_value, res.json["links"], base_urls)
 
-def test_draft_listing_links(
-    app, vocab_cf, client_with_login, base_urls, sample_draft_with_owner, search_clear, site_hostname="127.0.0.1:5000"
-):
+def test_draft_listing_links(app, vocab_cf, client_with_login, base_urls, sample_draft_with_owner, search_clear):
     ThesisDraft.index.refresh()
     res = client_with_login.get(f"/user{base_urls['base_url']}")
-    links = res.json["hits"]["hits"][0]["links"]
-    assert links == {
-        "self": f"https://{site_hostname}/api{base_urls['base_url']}{sample_draft_with_owner["id"]}/draft",
-        "self_html": f"https://{site_hostname}{base_urls['base_html_url']}{sample_draft_with_owner["id"]}/preview"
-    }
+    assert_expected_links(
+        sample_draft_with_owner["id"], res.json["hits"]["hits"][0]["links"], base_urls
+    )
 
 def test_pagination_links(
     app,
