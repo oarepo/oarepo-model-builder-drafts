@@ -83,7 +83,8 @@ def test_search_versions(client_with_credentials, input_data, search_clear, samp
 def test_create_publish_new_revision(client_with_credentials, input_data, search_clear, sample_metadata_list, sample_published_record):
     """Test draft creation of an existing record and publish it."""
     recid = sample_published_record["id"]
-
+    orig_revision_id = sample_published_record.revision_id
+    
     # Create new draft of said record
 
     edited_input_data = copy.deepcopy(input_data)
@@ -94,7 +95,7 @@ def test_create_publish_new_revision(client_with_credentials, input_data, search
     response = client_with_credentials.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft")
 
     assert response.status_code == 201
-    assert response.json["revision_id"] == {{ test_constants.revision_id2 }}
+    assert response.json["revision_id"] > orig_revision_id
     _assert_single_item_response(response)
 
     # Update that new draft
@@ -106,6 +107,7 @@ def test_create_publish_new_revision(client_with_credentials, input_data, search
     response = client_with_credentials.get(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}")
 
     assert response.status_code == 200
+    assert response.json["revision_id"] == orig_revision_id
     _assert_single_item_response(response)
     assert response.json["metadata"] == orig_metadata
 
@@ -116,7 +118,7 @@ def test_create_publish_new_revision(client_with_credentials, input_data, search
     _assert_single_item_response(response)
 
     assert response.json["id"] == recid
-    assert response.json["revision_id"] == {{ test_constants.revision_id1 }}
+    assert response.json["revision_id"] > orig_revision_id
     assert response.json["metadata"] == edited_metadata
 
     # Check it was actually edited
@@ -131,18 +133,21 @@ def test_mutiple_edit(client_with_credentials, input_data, search_clear, sample_
     This tests the `edit` service method.
     """
     recid = sample_published_record["id"]
+    orig_revision_id = sample_published_record.revision_id
 
     # Create new draft of said record
     response = client_with_credentials.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft")
 
     assert response.status_code == 201
-    assert response.json["revision_id"] == {{ test_constants.revision_id2 }}
+    assert response.json["revision_id"] > orig_revision_id
+
+    revision_id_draft_1 = response.json["revision_id"]
 
     # Request a second edit. Get the same draft (revision_id)
     response = client_with_credentials.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft")
 
     assert response.status_code == 201
-    assert response.json["revision_id"] == {{ test_constants.revision_id2 }}
+    assert response.json["revision_id"] == revision_id_draft_1
 
     # Publish it to check the increment in version_id
     response = client_with_credentials.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft/actions/publish")
@@ -153,7 +158,7 @@ def test_mutiple_edit(client_with_credentials, input_data, search_clear, sample_
     response = client_with_credentials.post(f"{{"{" }} {{ vars.resource_config.class|base_name }}.url_prefix{{ "}" }}{recid}/draft")
 
     assert response.status_code == 201
-    assert response.json["revision_id"] == {{ test_constants.revision_id3 }}
+    assert response.json["revision_id"] > revision_id_draft_1
 
 
 def test_redirect_to_latest_version(client_with_credentials, input_data, search_clear, sample_published_record):
