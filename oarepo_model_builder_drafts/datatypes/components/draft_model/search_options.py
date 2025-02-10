@@ -18,12 +18,6 @@ class DraftSearchOptionsModelComponent(SearchOptionsModelComponent):
 
         record_draft_search_prefix = datatype.definition["module"]["prefix"]
 
-        if datatype.root.profile == "draft":
-            # published and draft records share the same facets, that's why we use the same prefix
-            record_draft_search_prefix = context["published_record"].definition[
-                "module"
-            ]["prefix"]
-
         record_search_options = set_default(datatype, "search-options", {})
         module = record_search_options.setdefault(
             "module", f"{module}.services.{profile_module}.search"
@@ -31,4 +25,11 @@ class DraftSearchOptionsModelComponent(SearchOptionsModelComponent):
         record_search_options.setdefault(
             "class", f"{module}.{record_draft_search_prefix}SearchOptions"
         )
+        if datatype.root.profile == "draft":
+            record_search_options.setdefault(
+                "base-classes",
+                [
+                    "invenio_drafts_resources.services.records.config.SearchDraftsOptions{InvenioSearchDraftsOptions}"
+                ],
+            )
         super().before_model_prepare(datatype, context=context, **kwargs)
