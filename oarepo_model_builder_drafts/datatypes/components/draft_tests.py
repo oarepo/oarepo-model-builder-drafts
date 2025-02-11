@@ -47,6 +47,5 @@ class DraftModelTestComponent(DataTypeComponent):
                 "edit_html": "https://{site_hostname}{base_urls['base_html_url']}{pid_value}/edit",
             },
             "page_size": "10",
-            "sort_search": "newest",
             "sort_versions": "version",
         }

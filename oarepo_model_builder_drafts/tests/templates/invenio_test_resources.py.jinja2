@@ -258,7 +258,6 @@ def test_pagination_links(
 ):
 
     page_size = {{ test_constants.page_size }}
-    sort_search = "{{ test_constants.sort_search }}"
     sort_versions = "{{ test_constants.sort_versions }}"
 
     current_id = sample_published_record['id']
@@ -309,8 +308,8 @@ def test_pagination_links(
     base_url_search = (f"https://{site_hostname}/api{base_urls['base_url']}")
     base_url_user_search = (f"https://{site_hostname}/api/user{base_urls['base_url']}")
 
-    link_test(base_url_search, page_size, sort_search)
-    link_test(base_url_user_search, page_size, sort_search)
+    link_test(base_url_search, page_size, "newest")
+    link_test(base_url_user_search, page_size, "updated-desc")
 
 
 def test_when_draft_links(
