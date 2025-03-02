@@ -57,3 +57,9 @@ class DraftMappingModelComponent(MappingModelComponent):
 
         super().before_model_prepare(datatype, context=context, **kwargs)
 
+        if datatype.root.profile == "draft":
+            mapping = datatype.definition["mapping"]
+            mapping_alias = datatype.definition["mapping"]["alias"]
+            mapping.setdefault("index-field-args", []).append(
+                f'search_alias="{mapping_alias}"'
+            )
