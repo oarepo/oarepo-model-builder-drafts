@@ -116,12 +116,11 @@ class DraftComponent(DataTypeComponent):
                     link_class="RecordLink",
                     link_args=[
                         f'"{{+ui}}{html_url_prefix}{{id}}/edit"',
-                        'when=has_draft() & has_permission("update_draft")',
+                        'when=has_draft_permission("update_draft")',
                     ],
                     imports=[
                         Import("invenio_records_resources.services.RecordLink"),
-                        Import("oarepo_runtime.services.config.has_draft"),
-                        Import("oarepo_runtime.services.config.has_permission"),
+                        Import("oarepo_runtime.services.config.has_draft_permission"),
                     ],
                 ),
                 Link(
@@ -153,11 +152,11 @@ class DraftComponent(DataTypeComponent):
                     link_class="RecordLink",
                     link_args=[
                         f'"{{+api}}{url_prefix}{{id}}/draft"',
-                        'when=has_draft() & has_permission("read_draft")',
+                        'when=has_draft_permission("read_draft")',
                     ],
                     imports=[
                         Import("invenio_records_resources.services.RecordLink"),
-                        Import("oarepo_runtime.services.config.has_permission"),
+                        Import("oarepo_runtime.services.config.has_draft_permission"),
                     ],
                 ),
                 Link(
