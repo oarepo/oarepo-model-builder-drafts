@@ -12,14 +12,14 @@ from oarepo_model_builder_drafts.invenio.invenio_drafts_record_search_options im
 class InvenioRecordSearchFacetsBuilder(InvenioBaseClassPythonBuilder):
     TYPE = "invenio_record_facets"
     section = "facets"
-    template = "drafts-record-facets"
+    template = "record-facets"
 
     def build_node(self, node: DataType):
         # everything is done in finish
         pass
 
     def finish(self, **extra_kwargs):
-        facets = system_field_facets()
+        facets = get_distinct_facets(self.current_model) + system_field_facets()
         package = self.current_model.definition["facets"]["module"]
 
         imports = []
