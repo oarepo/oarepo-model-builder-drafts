@@ -11,9 +11,10 @@ class DraftRecordModelComponent(RecordModelComponent):
 
     def process_facets(self, datatype, section, **__kwargs):
 
-        if datatype.root.profile != "record":
+        if datatype.root.profile not in ("record", "draft"):
             return section
-        facets =[
+        facets = section.config.setdefault("facets", [])
+        facets.extend([
         FacetDefinition(
             path="record_status",
             dot_path="record_status",
@@ -72,8 +73,7 @@ class DraftRecordModelComponent(RecordModelComponent):
             facet=None,
             field="TermsFacet(field='fork_version_id', label=_('fork_version_id.label'))",
         ),
-    ]
-        section.config["facets"] = facets
+    ])
         return section
 
 
