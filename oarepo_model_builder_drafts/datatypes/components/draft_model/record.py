@@ -14,64 +14,64 @@ class DraftRecordModelComponent(RecordModelComponent):
         if datatype.root.profile != "record":
             return section
         facets =[
-        # FacetDefinition(
-        #     path="record_status",
-        #     dot_path="record_status",
-        #     searchable=True,
-        #     imports=[
-        #         Import(
-        #             import_path="invenio_records_resources.services.records.facets.TermsFacet",
-        #             alias=None,
-        #         )
-        #     ],
-        #     facet_groups={"_default": 100000},
-        #     facet=None,
-        #     field="TermsFacet(field='record_status', label =_('record_status'))",
-        # ),
-        #
-        # FacetDefinition(
-        #     path="has_draft",
-        #     dot_path="has_draft",
-        #     searchable=True,
-        #     imports=[
-        #         Import(
-        #             import_path="invenio_records_resources.services.records.facets.TermsFacet",
-        #             alias=None,
-        #         )
-        #     ],
-        #     facet_groups={"_default": 100000},
-        #     facet=None,
-        #     field="TermsFacet(field='has_draft', label =_('has_draft'))",
-        # ),
-        #
-        # FacetDefinition(
-        #     path="expires_at",
-        #     dot_path="expires_at",
-        #     searchable=True,
-        #     imports=[
-        #         Import(
-        #             import_path="oarepo_runtime.services.facets.date.DateTimeFacet",
-        #             alias=None,
-        #         )
-        #     ],
-        #     facet_groups={"_default": 100000},
-        #     facet=None,
-        #     field="DateTimeFacet(field='expires_at', label=_('expires_at.label'))",
-        # ),
-        # FacetDefinition(
-        #     path="fork_version_id",
-        #     dot_path="fork_version_id",
-        #     searchable=True,
-        #     imports=[
-        #         Import(
-        #             import_path="invenio_records_resources.services.records.facets.TermsFacet",
-        #             alias=None,
-        #         )
-        #     ],
-        #     facet_groups={"_default": 100000},
-        #     facet=None,
-        #     field="TermsFacet(field='fork_version_id', label=_('fork_version_id.label'))",
-        # ),
+        FacetDefinition(
+            path="record_status",
+            dot_path="record_status",
+            searchable=True,
+            imports=[
+                Import(
+                    import_path="invenio_records_resources.services.records.facets.TermsFacet",
+                    alias=None,
+                )
+            ],
+            facet_groups={"_default": 100000},
+            facet=None,
+            field="TermsFacet(field='record_status', label =_('record_status'))",
+        ),
+
+        FacetDefinition(
+            path="has_draft",
+            dot_path="has_draft",
+            searchable=True,
+            imports=[
+                Import(
+                    import_path="invenio_records_resources.services.records.facets.TermsFacet",
+                    alias=None,
+                )
+            ],
+            facet_groups={"_default": 100000},
+            facet=None,
+            field="TermsFacet(field='has_draft', label =_('has_draft'))",
+        ),
+
+        FacetDefinition(
+            path="expires_at",
+            dot_path="expires_at",
+            searchable=True,
+            imports=[
+                Import(
+                    import_path="oarepo_runtime.services.facets.date.DateTimeFacet",
+                    alias=None,
+                )
+            ],
+            facet_groups={"_default": 100000},
+            facet=None,
+            field="DateTimeFacet(field='expires_at', label=_('expires_at.label'))",
+        ),
+        FacetDefinition(
+            path="fork_version_id",
+            dot_path="fork_version_id",
+            searchable=True,
+            imports=[
+                Import(
+                    import_path="invenio_records_resources.services.records.facets.TermsFacet",
+                    alias=None,
+                )
+            ],
+            facet_groups={"_default": 100000},
+            facet=None,
+            field="TermsFacet(field='fork_version_id', label=_('fork_version_id.label'))",
+        ),
     ]
         section.config["facets"] = facets
         return section
