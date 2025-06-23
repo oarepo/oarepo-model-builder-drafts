@@ -32,4 +32,7 @@ class DraftSearchOptionsModelComponent(SearchOptionsModelComponent):
                     "invenio_drafts_resources.services.records.config.SearchDraftsOptions{InvenioSearchDraftsOptions}"
                 ],
             )
+            facets = set_default(datatype, "facets", {})
+            facets.setdefault("facet-groups",
+                              context["published_record"].definition.get("facets", {}).get("facet-groups", {}))
         super().before_model_prepare(datatype, context=context, **kwargs)
