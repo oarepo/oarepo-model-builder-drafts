@@ -1,4 +1,8 @@
 record:
+  facets:
+    facet-groups:
+      default:
+        metadata.title: 1
   properties:
     metadata:
       properties:
