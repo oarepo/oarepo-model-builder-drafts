@@ -11,7 +11,7 @@ from .draft_model import (
     DraftServiceModelComponent,
     DraftsRecordDumperModelComponent,
     ParentMarshmallowComponent,
-    DraftSearchOptionsModelComponent,
+    DraftSearchOptionsModelComponent, ParentUIMarshmallowComponent,
 )
 from .draft_tests import DraftModelTestComponent
 
@@ -30,4 +30,5 @@ DRAFT_COMPONENTS = [
     ParentMarshmallowComponent,
     DraftsRecordDumperModelComponent,
     DraftSearchOptionsModelComponent,
+    ParentUIMarshmallowComponent,
 ]
