@@ -7,6 +7,8 @@ TEMPLATES = {
     "drafts-record-service-config": "templates/invenio_drafts_record_service_config.py.jinja2",
     "drafts-parent-marshmallow": "templates/invenio_drafts_parent_marshmallow.py.jinja2",
     "drafts-parent-marshmallow-link": "templates/invenio_drafts_parent_marshmallow_link.py.jinja2",
+    "drafts-parent-ui-marshmallow": "templates/invenio_drafts_parent_ui_marshmallow.py.jinja2",
+    "drafts-parent-ui-marshmallow-link": "templates/invenio_drafts_parent_ui_marshmallow_link.py.jinja2",
     "drafts-parent-state": "templates/invenio_drafts_parent_state.py.jinja2",
     "drafts-has-draft-checkfield": "templates/invenio_drafts_has_draft_checkfield.py.jinja2",
     "drafts-record-communities-service-config": "templates/invenio_drafts_record_communities_service_config.py.jinja2",

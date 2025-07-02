@@ -3,6 +3,7 @@ from .draft_parent import DraftParentComponent
 from .jsonschema import DraftJSONSchemaModelComponent
 from .mapping import DraftMappingModelComponent
 from .parent_marshmallow import ParentMarshmallowComponent
+from .parent_ui_marshmallow import ParentUIMarshmallowComponent
 from .pid import DraftPIDModelComponent
 from .record import DraftRecordModelComponent
 from .record_dumper import DraftsRecordDumperModelComponent
@@ -24,4 +25,5 @@ __all__ = [
     "DraftsRecordDumperModelComponent",
     "ParentMarshmallowComponent",
     "DraftSearchOptionsModelComponent",
+    "ParentUIMarshmallowComponent",
 ]
